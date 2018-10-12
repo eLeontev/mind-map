@@ -1,30 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-let Label = ({label}) => (
-  <b>
-    {label}
-  </b>
-);
+import {Block} from './components/block/block';
 
-let Block = ({id, labels, hasChildren, blocks}) => {
-  let renderBlocks = (id) => (
-    blocks.filter(({parentID}) => parentID === id)
-        .map(block => (<Block id={block.id} {...block} blocks={blocks} />))
-  );
-
-  return (
-    <div>
-      {labels.map((label, key) => <Label key={key} label={label} />)}
-      {hasChildren && renderBlocks(id)}
-    </div>
-  )
-}
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      parent: {
+      root: {
         id: 0,
         labels: [1,2,3],
         hasChildren: true,
@@ -56,19 +39,16 @@ class App extends Component {
   }
 
   render() {
-    let {blocks, parent} = this.state;
+    let { blocks, root: { labels, id } } = this.state;
 
-    return (
-        <div>
-            {parent.labels.map((label, key) => <Label key={key} label={label} />)}
-            <Block
-              id={parent.id}
-              labels={['parent']}
+      return (
+          <Block
+              id={id}
+              labels={labels}
               blocks={blocks}
               hasChildren={true}
-            />
-        </div>
-    );
+          />
+      );
   }
 }
 
