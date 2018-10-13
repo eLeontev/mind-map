@@ -1,22 +1,40 @@
 import React from 'react';
-import {Labels} from '../labels/labels';
+import {Label} from '../label/label';
 import './block.css';
 
-export let Block = ({id, labels, hasChildren, blocks}) => {
+export let Block = ({id, value, blocks, hasChildren, isEditMode, updateLabel, updateAndCloseLabel, switchLabelToEditMode, createNewBlock}) => {
     let renderBlocks = (id) => (
         blocks.filter(({parentID}) => parentID === id)
-        .map(block => (<Block key={block.id} {...block} blocks={blocks} />))
+        .map(block => (
+            <Block 
+                key={block.id} 
+                {...block} 
+                blocks={blocks} 
+                updateLabel={updateLabel}
+                updateAndCloseLabel={updateAndCloseLabel}
+                switchLabelToEditMode={switchLabelToEditMode}
+                createNewBlock={createNewBlock} 
+            />
+        ))
     );
 
-    console.log(labels);
     return (
         <div className="block">
-            <Labels labels={labels} hasChildren={hasChildren} />
-            {/* <div className="labels"> */}
-                {/* {labels.map((label, key) => <Label key={key} label={label} />)} */}
-            {/* </div> */}
+            <div className="block--data-container">
+                <Label 
+                    id={id}
+                    value={value}
+                    isEditMode={isEditMode} 
+                    hasChildren={hasChildren}
+                    updateLabel={updateLabel} 
+                    updateAndCloseLabel={updateAndCloseLabel}
+                    switchLabelToEditMode={switchLabelToEditMode}
+                />
+            </div>
+            
             {hasChildren && (
                 <div className="block--children">
+                    <div className="block--background"></div>
                     {hasChildren && renderBlocks(id)}
                 </div>
             )}
