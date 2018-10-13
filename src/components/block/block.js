@@ -3,9 +3,8 @@ import {Label} from '../label/label';
 import './block.css';
 
 export let Block = ({id, value, blocks, hasChildren, isEditMode, updateLabel, updateAndCloseLabel, switchLabelToEditMode, createNewBlock}) => {
-    let renderBlocks = (id) => (
-        blocks.filter(({parentID}) => parentID === id)
-        .map(block => (
+    let renderBlocks = (childrenBlocks) => (
+        childrenBlocks.map(block => (
             <Block 
                 key={block.id} 
                 {...block} 
@@ -17,6 +16,9 @@ export let Block = ({id, value, blocks, hasChildren, isEditMode, updateLabel, up
             />
         ))
     );
+
+    let childrenBlocks = blocks.filter(({parentID}) => parentID === id);
+    let shoudDisplaySeparator = childrenBlocks.length > 1;
 
     return (
         <div className="block">
@@ -31,14 +33,12 @@ export let Block = ({id, value, blocks, hasChildren, isEditMode, updateLabel, up
                     switchLabelToEditMode={switchLabelToEditMode}
                 />
             </div>
-            
             {hasChildren && (
                 <div className="block--children">
-                    <div className="block--background"></div>
-                    {hasChildren && renderBlocks(id)}
+                    {shoudDisplaySeparator && <div className="block--background"></div>}
+                    {hasChildren && renderBlocks(childrenBlocks)}
                 </div>
             )}
-        
         </div>
     )
 }
