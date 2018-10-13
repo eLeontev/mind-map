@@ -1,5 +1,5 @@
 import React from 'react';
-import {Label} from '../label/label';
+import {Labels} from '../labels/labels';
 import './block.css';
 
 export let Block = ({id, labels, hasChildren, blocks}) => {
@@ -11,8 +11,16 @@ export let Block = ({id, labels, hasChildren, blocks}) => {
     console.log(labels);
     return (
         <div className="block">
-            {labels.map((label, key) => <Label key={key} label={label} />)}
-            {hasChildren && renderBlocks(id)}
+            <Labels labels={labels} hasChildren={hasChildren} />
+            {/* <div className="labels"> */}
+                {/* {labels.map((label, key) => <Label key={key} label={label} />)} */}
+            {/* </div> */}
+            {hasChildren && (
+                <div className="block--children">
+                    {hasChildren && renderBlocks(id)}
+                </div>
+            )}
+        
         </div>
     )
 }

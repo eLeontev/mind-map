@@ -9,29 +9,35 @@ class App extends Component {
     this.state = {
       root: {
         id: 0,
-        labels: [1,2,3],
+        labels: ['text 1', 'text 2'],
         hasChildren: true,
       },
       blocks: [
         {
             id: 1,
-            labels: ['boo', 'daa'],
+            labels: ['text 3', 'text 4'],
             parentID: 0,
             hasChildren: true
         },
         {
             id: 2,
-            labels: ['todo'],
+            labels: ['text'],
             parentID: 1,
         },
         {
             id: 4,
-            labels: ['check me'],
+            labels: ['просто длинный текст сообщения'],
             parentID: 0,
         },
         {
+            id: 6,
+            labels: ['просто длинный текст сообщения'],
+            parentID: 0,
+        },
+        ,
+        {
             id: 3,
-            labels: ['dooo'],
+            labels: ['Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor at impedit dolore sequi quibusdam dolores atque quo consequatur officiis nulla, non, totam odit tempora.'],
             parentID: 1,
         }
       ]
