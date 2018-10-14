@@ -1,24 +1,28 @@
 import React from 'react';
-import './label.css';
-import {TextArea} from '../text-area/text-area';
-import {TextField} from '../text-field/text-field';
+import TextArea from '../text-area';
+import TextField from '../text-field';
 
-export let Label = ({id, value, isEditMode, hasChildren, updateLabel, updateAndCloseLabel, switchLabelToEditMode}) => (
-    <div className={hasChildren ? 'labels labels_has_children' : 'labels'}>
-        <label className="label">
-            <TextField
-                id={id}
-                value={value}
-                isEditMode={isEditMode}
-                switchLabelToEditMode={switchLabelToEditMode}
-            />
-            <TextArea 
-                id={id} 
-                value={value} 
-                isEditMode={isEditMode} 
-                updateLabel={updateLabel}
-                updateAndCloseLabel={updateAndCloseLabel}
-            />
-        </label>
-    </div>
-);
+import './label.css';
+
+export let Label = ({ block, updateLabel, closeLabel, switchLabelToEditMode }) => {
+    let { id, value, isEditMode, hasChildren } = block;
+    let blockData = { id, value, isEditMode };
+
+    let className = hasChildren ? 'labels labels_has_children' : 'labels';
+    
+    return (
+        <div className={className}>
+            <label className="label">
+                <TextField
+                    {...blockData}
+                    switchLabelToEditMode={switchLabelToEditMode}
+                />
+                <TextArea 
+                    {...blockData} 
+                    updateLabel={updateLabel}
+                    closeLabel={closeLabel}
+                />
+            </label>
+        </div>
+    );
+};

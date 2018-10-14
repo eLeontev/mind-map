@@ -1,42 +1,37 @@
 import React from 'react';
-import {Label} from '../label/label';
+import Label from '../label';
+
 import './block.css';
 
-export let Block = ({id, value, blocks, hasChildren, isEditMode, updateLabel, updateAndCloseLabel, switchLabelToEditMode, createNewBlock}) => {
-    let renderBlocks = (childrenBlocks) => (
+export let Block = ({ block, blocks, hadnlers }) => {
+    let { id, hasChildren } = block;
+    
+    let childrenBlocks = blocks.filter(({ parentID }) => parentID === id);
+    let shoudDisplaySeparator = childrenBlocks.length > 1;
+
+    let renderCHildrenBlocks = (childrenBlocks, blocks) => (
         childrenBlocks.map(block => (
             <Block 
                 key={block.id} 
-                {...block} 
+                block={block} 
                 blocks={blocks} 
-                updateLabel={updateLabel}
-                updateAndCloseLabel={updateAndCloseLabel}
-                switchLabelToEditMode={switchLabelToEditMode}
-                createNewBlock={createNewBlock} 
+                hadnlers={hadnlers}
             />
         ))
     );
-
-    let childrenBlocks = blocks.filter(({parentID}) => parentID === id);
-    let shoudDisplaySeparator = childrenBlocks.length > 1;
-
+   
     return (
         <div className="block">
-            <div className="block--data-container">
+            <div className="block--label-container">
                 <Label 
-                    id={id}
-                    value={value}
-                    isEditMode={isEditMode} 
-                    hasChildren={hasChildren}
-                    updateLabel={updateLabel} 
-                    updateAndCloseLabel={updateAndCloseLabel}
-                    switchLabelToEditMode={switchLabelToEditMode}
+                    block={block}
+                    {...hadnlers}
                 />
             </div>
             {hasChildren && (
                 <div className="block--children">
-                    {shoudDisplaySeparator && <div className="block--background"></div>}
-                    {hasChildren && renderBlocks(childrenBlocks)}
+                    {shoudDisplaySeparator && <div className="block--children-separator"></div>}
+                    {renderCHildrenBlocks(childrenBlocks, blocks)}
                 </div>
             )}
         </div>

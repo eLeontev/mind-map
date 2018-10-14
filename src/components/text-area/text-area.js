@@ -1,5 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { CONSTANTS } from '../../constants';
+
 import './text-area.css';
+
+let PLACEHOLDER = 'start type here to begin';
+let {ENTER_KEY_CODE, TAB_KEY_CODE} = CONSTANTS;
 
 export class TextArea extends Component {
     componentDidMount() {
@@ -7,28 +12,34 @@ export class TextArea extends Component {
     }
 
     onEnterUpdate = (event) => {
-        if (event.which === 13 && this.props.value.trim()) {
-            this.props.updateAndCloseLabel(this.props.id, this.props.value.trim());
+        let { id, value, closeLabel } = this.props;
+
+        if (event.which === ENTER_KEY_CODE && value.trim()) {
+            closeLabel(id);
         }
     }
 
     preventFocus = (event) => {
-        if (event.which === 9) {
+        if (event.which === TAB_KEY_CODE) {
             return event.preventDefault();
         }
     }
+
     render() {
-        let {value} = this.props;
+        let { props, onEnterUpdate, preventFocus, } = this;
+        let { id, value, updateLabel, isEditMode } = props;
+        
+        let className = isEditMode ? 'editable-block': 'editable-block editable-block_hidden';
         
         return (
             <textarea 
+                placeholder={PLACEHOLDER}
                 ref={(textarea) => this.textarea = textarea}
                 value={value}
-                placeholder="start type here to begin"
-                onChange={({target: {value}}) => this.props.updateLabel(this.props.id, value)}
-                onKeyPress={this.onEnterUpdate}
-                onKeyDown={this.preventFocus}
-                className={this.props.isEditMode ? 'editable-block': 'editable-block editable-block_hidden'}
+                className={className}
+                onKeyDown={preventFocus}
+                onKeyPress={onEnterUpdate}
+                onChange={({ target: { value } }) => updateLabel(id, value)}
             ></textarea>
         )
     }

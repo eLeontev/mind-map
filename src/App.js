@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import {guid} from './utils/uuid';
+import Block from './components/block';
+
+import { CONSTANTS } from './constants';
+import { utils } from './utils';
+
 import './App.css';
-import {Block} from './components/block/block';
+
+let { elementsHandledOnCLick, rootBlock, ENTER_KEY_CODE, TAB_KEY_CODE } = CONSTANTS;
+let { guid, getNewBlock } = utils;
 
 class App extends Component {
   constructor(props) {
@@ -10,44 +16,66 @@ class App extends Component {
     this.state = {
       selectedBlockID: 0,
       enableCreateNewBlock: true,
-      blocks: [{
-        id: 0,
-        hasChildren: false,
-        isEditMode: true,
-        value: '',
-      }],
+      blocks: [{ ...rootBlock }],
     };
   }
 
   keyDown = (event) => {
-    if (this.state.blocks.some(({isEditMode}) => isEditMode)) {
+    let hasEditedBlocks = this.state.blocks.some(({ isEditMode }) => isEditMode);
+    
+    if (hasEditedBlocks) {
         return;
     }
 
-    if (event.which === 13 && this.state.enableCreateNewBlock) {
-        return this.createNewSisterBlock(this.state.selectedBlockID)
+    let { selectedBlockID, enableCreateNewBlock } = this.state; 
+    let { which: keyCode } = event;
+
+    switch (true) {
+        case (keyCode === ENTER_KEY_CODE && enableCreateNewBlock): {
+            this.createNewSisterBlock(selectedBlockID);
+            break;
+        }
+        case (keyCode === TAB_KEY_CODE): {
+            event.preventDefault();
+            
+            this.createNewChildrenBlock(selectedBlockID);
+            break;
+        }
+        default: {
+            this.setState({
+                enableCreateNewBlock: true,
+            });
+        }
     }
+  }
 
-    if (event.which === 9) {
-        event.preventDefault();
-
-        return this.createNewChildrenBlock(this.state.selectedBlockID);
+  clickOnEmptySpace = ({target: { className: targetClass }}) => {
+    let isClickOnHandledElement = elementsHandledOnCLick.some((className) => className === targetClass);
+    
+    if (!isClickOnHandledElement) {
+        this.closeEditedLabelOnCLick();
     }
-
-    this.setState({
-        enableCreateNewBlock: true
-    });
   }
 
   componentDidMount() {
       document.addEventListener('keydown', this.keyDown, false);
+      document.addEventListener('mousedown', this.clickOnEmptySpace, true);
   }
 
   componentWillUnmount() {
       document.removeEventListener('keydown', this.keyDown, false);
+      document.removeEventListener('mousedown', this.clickOnEmptySpace, true);
   }
   
   switchLabelToEditMode = (id) => {
+    let hasEditedBlockWithEmptyLabel = this.state.blocks.find(
+        ({ isEditMode, value }) => isEditMode && !value.trim()
+    );
+
+    if (hasEditedBlockWithEmptyLabel) {
+        return;
+    }
+
     let blocks = this.state.blocks.map((block) => ({
         ...block,
         isEditMode: block.id === id,
@@ -60,104 +88,104 @@ class App extends Component {
   }
 
   updateLabel = (id, value) => {
-    let blocks = this.state.blocks.map((block) => {
-        if (block.id === id) {
-            return {
-                ...block, 
-                value, 
-              }
-        }
-
-        return block;
-    });
+    let blocks = this.state.blocks.map((block) => (
+        block.id === id ? {
+            ...block, 
+            value, 
+        } : block
+    ));
 
     this.setState({ 
         blocks,
     });
   } 
 
-  updateAndCloseLabel = (id, value) => {
-    let blocks = this.state.blocks.map((block) => {
-        if (block.id === id) {
-            return {
-                ...block, 
-                value, 
-                isEditMode: false
-              }
-        }
-
-        return block;
-    });
+  closeLabel = (selectedBlockID) => {
+    let blocks = this.state.blocks.map((block) => (
+        block.id === selectedBlockID ? {
+            ...block, 
+            isEditMode: false
+        } : block
+    ));
 
     this.setState({ 
         blocks,
-        selectedBlockID: id,
+        selectedBlockID,
     });
   }
 
   createNewSisterBlock = (id) => {
-    if (id === 0) {
+    if (id === rootBlock.id) {
         return;
     }
 
-    let parentID = this.state.blocks.find((block) => block.id === id).parentID;
+    let { blocks } = this.state;
+    let parentID = blocks.find(
+        ({ id: currentID }) => currentID === id
+    ).parentID;
 
+    this.createAndSelectNewBlock(parentID, blocks);
+  }
+
+  createNewChildrenBlock = (parentID) => {
+    let blocks = this.state.blocks.map((block) => (
+        block.id === parentID ? {
+            ...block, 
+            hasChildren: true
+        } : block
+    ));
+
+    this.createAndSelectNewBlock(parentID, blocks);
+  }
+
+  createAndSelectNewBlock = (parentID, blocks) => {
     let selectedBlockID = guid();
-    this.setState({
+    
+    this.setState({ 
         blocks: [
-            ...this.state.blocks, {
-                parentID,
-                hasChildren: false,
-                isEditMode: true,
-                value: '',
-                id: selectedBlockID,
-            }
+            ...blocks, 
+            getNewBlock(selectedBlockID, parentID)
         ],
         selectedBlockID,
     })
   }
 
-  createNewChildrenBlock = (parentID) => {
-      let blocks = this.state.blocks.map((block) => {
-          if (block.id === parentID) {
-              return {...block, hasChildren: true}
-          }
+  closeEditedLabelOnCLick = () => {
+    let { hasEditedLabel, blocks } = this.state.blocks.reduce(({ blocks, hasEditedLabel }, block) => {
+        let { isEditMode, value } = block;
 
-          return block;
-      });
+        if (isEditMode && value.trim()) {
+            block = { ...block, isEditMode: false };
+            hasEditedLabel = true;
+        }
 
+        return {
+            hasEditedLabel,
+            blocks: [ ...blocks, block ],
+        };
+    }, { blocks: [] });
       
-      let selectedBlockID = guid();
-      this.setState({ 
-          blocks: [...blocks, {
-            parentID,
-            hasChildren: false,
-            isEditMode: true,
-            value: '',
-            id: selectedBlockID,
-          }],
-          selectedBlockID,
-      })
+    if (hasEditedLabel) {
+        this.setState({ blocks });    
+    }
   }
 
   render() {
     let { blocks } = this.state;
-    // get parent data
-    let [{id, hasChildren, isEditMode, value}] = blocks;
-
-      return (
-          <Block
-              id={id}
-              value={value}
-              blocks={blocks}
-              isEditMode={isEditMode}
-              hasChildren={hasChildren}
-              updateLabel={this.updateLabel}
-              updateAndCloseLabel={this.updateAndCloseLabel}
-              switchLabelToEditMode={this.switchLabelToEditMode}
-              createNewBlock={this.createNewBlock} 
-          />
-      );
+    let [rootBlock] = this.state.blocks;
+    let hadnlers = { 
+        updateLabel: this.updateLabel, 
+        closeLabel: this.closeLabel, 
+        switchLabelToEditMode: this.switchLabelToEditMode, 
+    };
+    
+    return (
+        <Block
+            block={rootBlock}
+            blocks={blocks}
+            hadnlers={hadnlers}
+        />
+    );
   }
 }
 
