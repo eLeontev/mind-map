@@ -11,5 +11,6 @@ export let rootBlock = {
     isEditMode: true,
     value: '',
 };
+
 export let ENTER_KEY_CODE = 13;
 export let TAB_KEY_CODE = 9;
