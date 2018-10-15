@@ -7,7 +7,7 @@ import { utils } from './utils';
 import './App.css';
 
 let { elementsHandledOnCLick, rootBlock, ENTER_KEY_CODE, TAB_KEY_CODE } = CONSTANTS;
-let { guid, getNewBlock } = utils;
+let { guid, getNewBlock, getDescendantBlocks } = utils;
 
 class App extends Component {
   constructor(props) {
@@ -172,10 +172,16 @@ class App extends Component {
 
   removeLabel = (id, parentId) => {
     const blocks = this.state.blocks;
-    this.setState({
-        blocks: blocks.filter(b => b.id !== id),
-        selectedBlockID: parentId
+    const blocksToRemove = getDescendantBlocks(blocks, id);
+
+    const clearBlocks = blocks.filter(b => {
+        return blocksToRemove.filter(btr => btr.id === b.id).length === 0;
     });
+
+    this.setState({
+         blocks: clearBlocks,
+         selectedBlockID: parentId
+     });
   }
 
   render() {

@@ -9,11 +9,11 @@ export let Label = ({ block, updateLabel, closeLabel, switchLabelToEditMode, rem
     let blockData = { id, value, isEditMode };
 
     let className = hasChildren ? 'labels labels_has_children' : 'labels';
-    className += block.parentID ? '' : ' is_root_label';
+    const labelClassName = `label ${block.parentID || block.parentID === 0 ? '' : ' is_root_label'}`; 
     
     return (
         <div className={className}>
-            <label className="label">
+            <label className={labelClassName}>
                 <TextField
                     {...blockData}
                     switchLabelToEditMode={switchLabelToEditMode}
