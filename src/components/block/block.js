@@ -3,7 +3,7 @@ import Label from '../label';
 
 import './block.css';
 
-export let Block = ({ block, blocks, hadnlers }) => {
+export let Block = ({ block, blocks, handlers }) => {
     let { id, hasChildren } = block;
     
     let childrenBlocks = blocks.filter(({ parentID }) => parentID === id);
@@ -15,7 +15,7 @@ export let Block = ({ block, blocks, hadnlers }) => {
                 key={block.id} 
                 block={block} 
                 blocks={blocks} 
-                hadnlers={hadnlers}
+                handlers={handlers}
             />
         ))
     );
@@ -25,7 +25,7 @@ export let Block = ({ block, blocks, hadnlers }) => {
             <div className="block--label-container">
                 <Label 
                     block={block}
-                    {...hadnlers}
+                    {...handlers}
                 />
             </div>
             {hasChildren && (

@@ -187,7 +187,7 @@ class App extends Component {
   render() {
     let { blocks } = this.state;
     let [rootBlock] = this.state.blocks;
-    let hadnlers = { 
+    let handlers = { 
         updateLabel: this.updateLabel, 
         closeLabel: this.closeLabel, 
         switchLabelToEditMode: this.switchLabelToEditMode,
@@ -198,7 +198,7 @@ class App extends Component {
         <Block
             block={rootBlock}
             blocks={blocks}
-            hadnlers={hadnlers}
+            handlers={handlers}
         />
     );
   }
