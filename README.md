@@ -1,9 +1,9 @@
-##Mind-map 
+## Mind-map 
 
 Common approach which provides to build tree-graph dependencies with one root block.
 At whole it is considered as a modern approach to structuring and data processing. 
 
-###Actual functionality
+### Actual functionality
 
 1. keyboard navigation 
   - Enter to create a new sister block on the same level (does not work on root blocks, since it should be only one)
@@ -16,7 +16,7 @@ At whole it is considered as a modern approach to structuring and data processin
   - click on any free space closes edited block in case if the block's text exists (see validation)
   - click on any block switches it to edit mode (before edited block will be closed in case if the block's text exists) 
 
-###How to use
+### How to use
 
 Initially display one block (root block in further) in edit mode. 
 Begin to typing to start work with mind-map.
@@ -30,7 +30,7 @@ Click on mouse turns off edit mode if click was performed on empty space and wil
 Short workflow:
 `typing` -> `Enter` -> `Tab` -> `typing` -> `Enter` -> `Enter` -> `typing` ...
 
-##Development
+## Development
 
   - [Available Scripts](#available-scripts)
   - [npm start](#npm-start)
