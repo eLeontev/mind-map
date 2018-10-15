@@ -170,13 +170,22 @@ class App extends Component {
     }
   }
 
+  removeLabel = (id, parentId) => {
+    const blocks = this.state.blocks;
+    this.setState({
+        blocks: blocks.filter(b => b.id !== id),
+        selectedBlockID: parentId
+    });
+  }
+
   render() {
     let { blocks } = this.state;
     let [rootBlock] = this.state.blocks;
     let hadnlers = { 
         updateLabel: this.updateLabel, 
         closeLabel: this.closeLabel, 
-        switchLabelToEditMode: this.switchLabelToEditMode, 
+        switchLabelToEditMode: this.switchLabelToEditMode,
+        removeLabel: this.removeLabel
     };
     
     return (

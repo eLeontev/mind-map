@@ -28,3 +28,14 @@
     height: 10px;
     border-left: 1px solid #000;
 }
+
+.label {
+    position: relative;
+    padding-right: 20px;
+}
+
+.removeLabel {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
