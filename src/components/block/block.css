@@ -23,10 +23,15 @@
     left: 15px;
     right: 15px;
     content: '';
-    border-top: 1px solid #000;    
+    border-top: 2px solid #bec1c3;
 }
 
 .block--label-container {
     position: relative;
 }
 
+.label.root {
+    background-color: #4ba8f8;
+    color: white;
+    font-weight: 500;
+}
