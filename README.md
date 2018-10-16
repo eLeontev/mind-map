@@ -18,16 +18,18 @@ At whole it is considered as a modern approach to structuring and data processin
 
 ### How to use
 
-Initially display one block (root block in further) in edit mode. 
-Begin to typing to start work with mind-map.
-Press `Enter` after finishing of the text. The edit mode will be completed.
+The application initially displays a single block in edit mode (this is the root block). To interact with mind-map, begin typing. When you are finished with your text, press `Enter`. This will close edit mode on the current item.
 
-Now press `Tab` to create new child block. *Each new block will be displayed in edit mode by default with the focus on the text area.
+* To create a new child block, press `Tab`. 
+  * By default, each new block will be displayed in edit mode with focus on the text area.
+  
+* To create a sister block, press `Enter`. This works for any block except the root block (only one root can exist).
 
-Creating new sister block on `Enter` press works on each block exept of root block (only one root can be existed)
-Click on mouse turns off edit mode if click was performed on empty space and will open edit mode in the block if it was clicked on it. 
+* To open edit blocks, simply click on the box you would like to edit.
 
-Short workflow:
+* To turn off edit mode click mouse on emtpy space outside of any blocks.
+
+Sample workflow:
 `typing` -> `Enter` -> `Tab` -> `typing` -> `Enter` -> `Enter` -> `typing` ...
 
 ## Development
