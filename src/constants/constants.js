@@ -9,6 +9,7 @@ export let rootBlock = {
     id: 0,
     hasChildren: false,
     isEditMode: true,
+    isRoot: true,
     value: '',
 };
 
