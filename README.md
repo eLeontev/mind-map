@@ -1,31 +1,30 @@
 ##Mind-map 
 
-Common approach which provides to build tree-graph dependencies with one root block.
-At whole it is considered as a modern approach to structuring and data processing. 
+A modern approach to structuring and data processing. Provides a way to build tree-graph dependencies with one root block. 
 
 ###Actual functionality
 
 1. keyboard navigation 
-  - Enter to create a new sister block on the same level (does not work on root blocks, since it should be only one)
+  - Enter to create a new sister block on the same level (does not work on root blocks because there can   only be one root)
   - Tab to create a new child block 
 
 2. validation
-  - the text of edited block should not be empty + only one text can be edited at time
+  - the text of an edited block should not be empty + the text of only one block can be edited at a time
 
 3. mouse navigation
-  - click on any free space closes edited block in case if the block's text exists (see validation)
-  - click on any block switches it to edit mode (before edited block will be closed in case if the block's text exists) 
+  - click on any free space to close an edited block in case the block's text already exists (see validation)
+  - click on any block to switch it to edit mode (before edited block will be closed in case the block's text exists already) 
 
 ###How to use
 
-Initially display one block (root block in further) in edit mode. 
-Begin to typing to start work with mind-map.
-Press Enter after finishing of the text. The edit mode will be completed.
+Initially display one block (root block in particular) in edit mode. 
+Begin typing to start work with mind-map.
+Press Enter after finishing the text. This will end the edit mode.
 
-Now press Tab to create new child block. *Each new block will be displayed in edit mode by default with the focus on the text area.
+Now press Tab to create a new child block. *Each new block will be displayed in edit mode by default with the focus on the text area.
 
-Creating new sister block on Enter press works on each block exept of root block (only one root can be existed)
-Click on mouse turns off edit mode if click was performed on empty space and will open edit mode in the block if it was clicked on it. 
+Creating a new sister block by pressing enter works on each block except the root block (only one root can exist)
+Mouse click turns off edit mode if click was performed on an empty space and will open edit mode in the block that was clicked. 
 
 Short workflow:
 `typing` -> `Enter` -> `Tab` -> `typing` -> `Enter` -> `Enter` -> `typing` ...
@@ -48,11 +47,11 @@ Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+You will also see lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
+Launches the test runner in interactive watch mode.<br>
 See the section about [running tests](#running-tests) for more information.
 
 ### `npm run build`
