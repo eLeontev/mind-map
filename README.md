@@ -1,12 +1,12 @@
-##Mind-map 
+## Mind-map 
 
 A modern approach to structuring and data processing. Provides a way to build tree-graph dependencies with one root block. 
 
-###Actual functionality
+### Actual functionality
 
 1. keyboard navigation 
-  - Enter to create a new sister block on the same level (does not work on root blocks because there can   only be one root)
-  - Tab to create a new child block 
+  - `Enter` to create a new sister block on the same level (does not work on root blocks because there can only be one root)
+  - `Tab` to create a new child block 
 
 2. validation
   - the text of an edited block should not be empty + the text of only one block can be edited at a time
@@ -15,7 +15,7 @@ A modern approach to structuring and data processing. Provides a way to build tr
   - click on any free space to close an edited block in case the block's text already exists (see validation)
   - click on any block to switch it to edit mode (before edited block will be closed in case the block's text exists already) 
 
-###How to use
+### How to use
 
 Initially display one block (root block in particular) in edit mode. 
 Begin typing to start work with mind-map.
@@ -26,10 +26,12 @@ Now press Tab to create a new child block. *Each new block will be displayed in 
 Creating a new sister block by pressing enter works on each block except the root block (only one root can exist)
 Mouse click turns off edit mode if click was performed on an empty space and will open edit mode in the block that was clicked. 
 
-Short workflow:
+* To turn off edit mode click mouse on emtpy space outside of any blocks.
+
+Sample workflow:
 `typing` -> `Enter` -> `Tab` -> `typing` -> `Enter` -> `Enter` -> `typing` ...
 
-##Development
+## Development
 
   - [Available Scripts](#available-scripts)
   - [npm start](#npm-start)

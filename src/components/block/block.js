@@ -23,7 +23,7 @@ export let Block = ({ block, blocks, hadnlers }) => {
     return (
         <div className="block">
             <div className="block--label-container">
-                <Label 
+                <Label
                     block={block}
                     {...hadnlers}
                 />
