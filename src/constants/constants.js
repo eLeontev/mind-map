@@ -1,8 +1,8 @@
 export let elementsHandledOnCLick = [
-    'labels', 
-    'label', 
-    'label--text', 
-    'editable-block'
+    'labels',
+    'label',
+    'label--text',
+    'editable-block',
 ];
 
 export let rootBlock = {

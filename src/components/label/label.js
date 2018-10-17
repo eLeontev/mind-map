@@ -4,22 +4,29 @@ import TextField from '../text-field';
 
 import './label.css';
 
-export let Label = ({ block, updateLabel, closeLabel, switchLabelToEditMode }) => {
+export let Label = ({
+    block,
+    updateLabel,
+    closeLabel,
+    switchLabelToEditMode,
+}) => {
     let { id, value, isEditMode, hasChildren, isRoot } = block;
     let blockData = { id, value, isEditMode };
 
-    let className = hasChildren ? 'labels labels_has_children' : 'labels';
-    const labelClassName = isRoot ? 'label root' : 'label';
-    
+    let containerClassName = hasChildren
+        ? 'labels labels_has_children'
+        : 'labels';
+    let labelClassName = isRoot ? 'label root' : 'label';
+
     return (
-        <div className={className}>
+        <div className={containerClassName}>
             <label className={labelClassName}>
                 <TextField
                     {...blockData}
                     switchLabelToEditMode={switchLabelToEditMode}
                 />
-                <TextArea 
-                    {...blockData} 
+                <TextArea
+                    {...blockData}
                     updateLabel={updateLabel}
                     closeLabel={closeLabel}
                 />

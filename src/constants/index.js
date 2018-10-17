@@ -1,4 +1,4 @@
-import { 
+import {
     elementsHandledOnCLick,
     rootBlock,
     ENTER_KEY_CODE,
