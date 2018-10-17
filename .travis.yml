@@ -4,6 +4,4 @@ node_js:
 jobs:
   include:
     - stage: test
-      script: prettier
-    - # stage name not required, will continue to use `test`
-      script: eslint
+      script: npm run eslint
