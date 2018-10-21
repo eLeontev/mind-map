@@ -1,7 +1,12 @@
+.label {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
 .labels {
     position: relative;
     display: flex;
-    border-radius: 6px;
+    border-radius: 5px;
     flex-direction: column;
     border: 1px solid black;
     margin: 10px;
