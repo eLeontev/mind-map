@@ -6,8 +6,6 @@ import './login.css';
 export let Login = () => (
     <div>
         <p>Login</p>
-        <Link to="/mind-map">
-            Go to maps
-        </Link>
+        <Link to="/mind-map">Go to maps</Link>
     </div>
 );

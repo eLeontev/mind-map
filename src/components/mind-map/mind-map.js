@@ -29,7 +29,11 @@ class MindMap extends Component {
         document.addEventListener('keydown', this.keyDown, false);
         document.addEventListener('mousedown', this.clickOnEmptySpace, true);
 
-        let { match: { params: { id } } } = this.props;
+        let {
+            match: {
+                params: { id },
+            },
+        } = this.props;
         this.loadMap(id);
     }
 
@@ -39,9 +43,10 @@ class MindMap extends Component {
     }
 
     loadMap = (id) => {
-        new Promise(res => res(id))
-            .then(() => this.setState({ ...this.state }))
-    }
+        new Promise((res) => res(id)).then(() =>
+            this.setState({ ...this.state })
+        );
+    };
 
     keyDown = (event) => {
         let { selectedBlockID, enableCreateNewBlock, blocks } = this.state;

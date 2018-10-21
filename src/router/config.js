@@ -12,15 +12,15 @@ export let routesConfig = [
     {
         exact: true,
         path: '/login',
-        component: Login
+        component: Login,
     },
     {
         exact: true,
         path: '/maps/:id',
-        component: MindMap
+        component: MindMap,
     },
     {
         path: '/*',
-        component: PageNotFound
-    }
+        component: PageNotFound,
+    },
 ];

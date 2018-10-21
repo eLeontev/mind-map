@@ -10,8 +10,8 @@ class MapMenu extends Component {
             <div>
                 <Link to={`/maps/${mapName}`}>go to the new map page</Link>
             </div>
-        )    
+        );
     }
- }
+}
 
 export default MapMenu;
