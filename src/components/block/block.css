@@ -23,7 +23,7 @@
     left: 15px;
     right: 15px;
     content: '';
-    border-top: 2px solid #bec1c3;
+    border-top: 1px solid #bec1c3;
 }
 
 .block--label-container {

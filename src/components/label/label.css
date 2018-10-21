@@ -21,7 +21,7 @@
     bottom: -11px;
     width: 0;
     height: 10px;
-    border-left: 2px solid #bec1c3;
+    border-left: 1px solid #bec1c3;
 }
 
 .labels:before {
@@ -32,5 +32,5 @@
     top: -11px;
     width: 0px;
     height: 10px;
-    border-left: 2px solid #bec1c3;
+    border-left: 1px solid #bec1c3;
 }

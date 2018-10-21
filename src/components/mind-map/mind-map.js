@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Block from './components/block';
+import Block from '../block';
 
-import { CONSTANTS } from './constants';
-import { utils } from './utils';
+import { CONSTANTS } from '../../constants';
+import { utils } from '../../utils';
 
 import './mind-map.css';
 
@@ -28,11 +28,19 @@ class MindMap extends Component {
     componentDidMount() {
         document.addEventListener('keydown', this.keyDown, false);
         document.addEventListener('mousedown', this.clickOnEmptySpace, true);
+
+        let { match: { params: { id } } } = this.props;
+        this.loadMap(id);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.keyDown, false);
         document.removeEventListener('mousedown', this.clickOnEmptySpace, true);
+    }
+
+    loadMap = (id) => {
+        new Promise(res => res(id))
+            .then(() => this.setState({ ...this.state }))
     }
 
     keyDown = (event) => {
