@@ -199,6 +199,78 @@ class App extends Component {
         }
     };
 
+    removeBlockWithChildren = (id) => {
+        let parentID;
+        let { blocks } = this.state;
+
+        blocks = blocks
+            .filter(({ id: blockID, parentID: blockParnetID }) => {
+                if (blockID === id) {
+                    parentID = blockParnetID;
+                    return false;
+                }
+
+                return true;
+            })
+            .map((block, i, blockWithoutRootRemovedBlock) => {
+                let { id } = block;
+                let hasNotChildren = this.isRemovedBlockHasNotChildren(
+                    blockWithoutRootRemovedBlock,
+                    parentID,
+                    id
+                );
+
+                if (hasNotChildren) {
+                    return {
+                        ...block,
+                        hasChildren: false,
+                    };
+                }
+
+                return block;
+            });
+
+        blocks = this.getBlocksWithoutChildrenOfRemoved(blocks, [id]);
+
+        this.setState({
+            blocks,
+            selectedBlockID: parentID,
+        });
+    };
+
+    isRemovedBlockHasNotChildren = (
+        blockWithoutRootRemovedBlock,
+        parentID,
+        id
+    ) =>
+        id === parentID &&
+        !blockWithoutRootRemovedBlock.find(
+            ({ parentID: blockParentID }) => blockParentID === parentID
+        );
+
+    getBlocksWithoutChildrenOfRemoved = (blocks, parentIDarray) => {
+        let childrenIDarray = [];
+        let notChildrenBlocks = blocks.filter(({ id, parentID }) => {
+            if (parentIDarray.find((id) => id === parentID)) {
+                childrenIDarray.push(id);
+
+                return false;
+            }
+
+            return true;
+        });
+
+        let hasChildren = Boolean(childrenIDarray.length);
+        if (hasChildren) {
+            blocks = this.getBlocksWithoutChildrenOfRemoved(
+                notChildrenBlocks,
+                childrenIDarray
+            );
+        }
+
+        return blocks;
+    };
+
     render() {
         let { blocks } = this.state;
         let [rootBlock] = blocks;
@@ -206,6 +278,7 @@ class App extends Component {
             updateLabel: this.updateLabel,
             closeLabel: this.closeLabel,
             switchLabelToEditMode: this.switchLabelToEditMode,
+            removeBlockWithChildren: this.removeBlockWithChildren,
         };
 
         return <Block block={rootBlock} blocks={blocks} hadnlers={hadnlers} />;

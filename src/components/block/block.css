@@ -30,6 +30,34 @@
     position: relative;
 }
 
+.block--remove-button {
+    display: none;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #000;
+    border-radius: 50%;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #4ba8f8;
+    cursor: pointer;
+    outline: none;
+}
+
+.block--remove-button:before {
+    position: relative;
+    content: 'x';
+    font-size: 6px;
+    font-weight: bold;
+    bottom: 6px;
+}
+
+.block--label-container:hover .block--remove-button {
+    display: block;
+}
+
 .label.root {
     background-color: #4ba8f8;
     color: white;
