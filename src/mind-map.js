@@ -4,7 +4,7 @@ import Block from './components/block';
 import { CONSTANTS } from './constants';
 import { utils } from './utils';
 
-import './App.css';
+import './mind-map.css';
 
 let { guid, getNewBlock } = utils;
 let {
@@ -14,7 +14,7 @@ let {
     TAB_KEY_CODE,
 } = CONSTANTS;
 
-class App extends Component {
+class MindMap extends Component {
     constructor(props) {
         super(props);
 
@@ -243,8 +243,8 @@ class App extends Component {
         parentID,
         id
     ) =>
-        id === parentID &&
-        !blockWithoutRootRemovedBlock.find(
+        id === parentID 
+        && !blockWithoutRootRemovedBlock.find(
             ({ parentID: blockParentID }) => blockParentID === parentID
         );
 
@@ -285,4 +285,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default MindMap;
