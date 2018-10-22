@@ -28,6 +28,8 @@
         "implicit-arrow-linebreak": 0,
         "no-confusing-arrow": 0,
         "no-param-reassign": 0,
-        "react/button-has-type": 0
+        "react/button-has-type": 0,
+        "import/no-extraneous-dependencies": 0,
+        "react/jsx-one-expression-per-line": 0
     }
 }

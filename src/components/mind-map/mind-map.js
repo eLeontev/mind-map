@@ -43,9 +43,9 @@ class MindMap extends Component {
     }
 
     loadMap = (id) => {
-        new Promise((res) => res(id)).then(() =>
-            this.setState({ ...this.state })
-        );
+        let { state } = this.state;
+
+        new Promise((res) => res(id)).then(() => this.setState({ ...state }));
     };
 
     keyDown = (event) => {
@@ -256,7 +256,7 @@ class MindMap extends Component {
         parentID,
         id
     ) =>
-        id === parentID 
+        id === parentID
         && !blockWithoutRootRemovedBlock.find(
             ({ parentID: blockParentID }) => blockParentID === parentID
         );
