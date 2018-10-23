@@ -7,6 +7,16 @@ import PageNotFound from '../components/page-not-found';
 
 export let routesConfig = [
     {
+        path: '/auth/google',
+        exact: true,
+        component: () => <div>autorizing...</div>
+    },
+    {
+        path: '/auth/google/redirect',
+        exact: true,
+        component: () => <div>redirecting...</div>
+    },
+    {
         exact: true,
         path: '/',
         component: () => <Redirect to='/maps' />

@@ -1,6 +1,3 @@
-/**
- * Created by KD
- */
 const express = require('express');
 const router = express.Router();
 const mapController = require('./map.controller');
