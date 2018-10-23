@@ -1,74 +1,66 @@
-const map = require('./map.model');
+const Map = require('./map.model');
 
 /**
  * Get all active maps
  * @return {maps} - return all maps
- * @return {err} - return error
  */
 let getAllMaps = () => {
-  return map
+  return Map
     .find({})
     .sort({label: 1})
     .exec()
-    .then((maps) => Promise.resolve(maps))
-    .catch((err) => Promise.reject(err));
+    .then(maps => maps);
 };
 
 /**
  * Get map by Id
  * @param {ObjectId} id - map id
  * @return {map} - return map
- * @return {err} - return error
  */
 let getMapById = (id) => {
-  return map
+  return Map
     .findById(id)
     .exec()
-    .then((map) => Promise.resolve(map))
-    .catch((err) => Promise.reject(err));
+    .then(map => map);
 };
 
 /**
  * Get map by label
  * @param {String} label - map label
  * @return {maps} - return map
- * @return {err} - return error
  */
 let getMapByLabel = (label) => {
-  return map
+  return Map
     .findOne({
       label: new RegExp('^' + label + '$', "i")
     })
     .exec()
-    .then((map) => Promise.resolve(map))
-    .catch((err) => Promise.reject(err));
+    .then(map => map);
 };
 
 /**
  * Add map
  * @param {object} req - Request json object
  * @return {map} - return map
- * @return {err} - return error
  */
 let addMap = (req) => {
-  let oMap = new map();
-  oMap.label = req.label;
-  oMap.owner = req.owner;
-  oMap.isShared = req.isShared || false;
+  let oMap = new Map({
+    label: req.label,
+    owner: req.owner,
+    isShared: req.isShared || false
+  });
 
   return oMap.save()
-    .then(map => Promise.resolve(map))
-    .catch(err => Promise.reject(err));
+    .then(map => map);
 };
 
 /**
  * Update map
  * @param {object} req - Request json object
  * @return {map} - return map
- * @return {err} - return error
  */
 let updateMap = (req, id) => {
-  return map
+  return Map
     .findById(id)
     .exec()
     .then((oMap) => {
@@ -81,29 +73,24 @@ let updateMap = (req, id) => {
       }
 
       return oMap.save()
-        .then(updatedMap => Promise.resolve(updatedMap))
-        .catch(err => Promise.reject(err));
+        .then(updatedMap => updatedMap);
     })
-    .catch(err => Promise.reject(err));
 };
 
 /**
  * Remove map by Id
  * @param {ObjectId} id - map id
  * @return {map} - return map
- * @return {err} - return error
  */
 let removeMap = (id) => {
-  return map
+  return Map
     .findById(id)
     .exec()
     .then((oMap) => {
       return oMap
         .remove()
-        .then((rMap) => Promise.resolve(rMap))
-        .catch(err => Promise.reject(err));
-    })
-    .catch(err => Promise.reject(err));
+        .then(rMap => rMap);
+    });
 };
 
 module.exports = {

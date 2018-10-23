@@ -1,45 +1,14 @@
 const httpStatus = require('http-status');
 const map = require('./map.helper');
 
-function get(req, res) {
-  map.getAllMaps()
-    .then(maps => {
-      return res.send(maps);
-    })
-    .catch(error => {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
-    });
-};
+let connectionDBtoServerHelper = (dbSelection, res) => dbSelection
+  .then(obj => res.send(obj))
+  .catch(err => res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err));
 
-function add(req, res) {
-  map.addMap(req.body)
-    .then(map => {
-      return res.send(map);
-    })
-    .catch(error => {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
-    });
-};
-
-function update(req, res) {
-  map.updateMap(req.body, req.params.id)
-    .then(map => {
-      return res.send(map);
-    })
-    .catch(error => {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
-    });
-};
-
-function remove(req, res) {
-  map.removeMap(req.params.id)
-    .then(map => {
-      return res.send(map);
-    })
-    .catch(error => {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
-    });
-};
+let get = (req, res) => connectionDBtoServerHelper(map.getAllMaps(), res);
+let add = (req, res) => connectionDBtoServerHelper(map.addMap(req.body), res);
+let update = (req, res) => connectionDBtoServerHelper(map.updateMap(req.body, req.params.id), res);
+let remove = (req, res) => connectionDBtoServerHelper(map.removeMap(req.params.id), res);
 
 module.exports = {
   get,

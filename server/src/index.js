@@ -11,13 +11,14 @@ const expressJwt = require('express-jwt');
 const server = require('http').Server(app);
 
 // MongoDB connection configuration
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URL, {useMongoClient: true}, (err, res) => {
-  if (err)
-    console.log(`err connecting to db on ${process.env.DB_URL}, err: ${err}`);
-  else
+mongoose.Promise = Promise;
+mongoose.connect(process.env.DB_URL, {useMongoClient: true})
+  .then((res) => {
     console.log(`----- Database connected on ${process.env.DB_URL} -----`);
-}); // connect to our database
+  })
+  .catch((err) => {
+    console.log(`err connecting to db on ${process.env.DB_URL}, err: ${err}`);
+  }); // connect to our database
 
 // Set port
 app.set('port', process.env.PORT || 8000);

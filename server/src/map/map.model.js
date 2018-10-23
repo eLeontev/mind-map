@@ -34,12 +34,11 @@ mapSchema.statics = {
           if (!docs) {
             return Promise.reject({msg: 'No Document in Database..'});
           } else {
-            const result = {
+            return Promise.resolve({
               totalRecords: count,
               numberOfPages: Math.ceil(count / params.pagination.number),
               data: docs
-            };
-            return Promise.resolve(result);
+            });
           }
         });
       })
