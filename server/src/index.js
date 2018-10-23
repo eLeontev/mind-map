@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+let session = require('express-session');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -39,6 +40,9 @@ app.use('/', function (err, req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+// enable session suport
+app.use(session({ secret: 'mind-map' }));
 
 // For self-signed certificate.
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';

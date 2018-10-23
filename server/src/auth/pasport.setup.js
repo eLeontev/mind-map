@@ -7,6 +7,14 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
-      return cb(null, 'asd');
+    return cb(null, profile);
   }
 ));
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
