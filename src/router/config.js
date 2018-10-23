@@ -1,9 +1,16 @@
+import React from 'react';
+import { Redirect } from 'react-router';
 import MapMenu from '../components/map-menu';
 import MindMap from '../components/mind-map';
 import Login from '../components/login';
 import PageNotFound from '../components/page-not-found';
 
 export let routesConfig = [
+    {
+        exact: true,
+        path: '/',
+        component: () => <Redirect to='/maps' />
+    },
     {
         exact: true,
         path: '/maps',

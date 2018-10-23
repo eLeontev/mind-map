@@ -1,0 +1,19 @@
+.maps {
+    padding: 10px 0;
+    border-bottom: 1px solid #bec1c3;
+    margin: 0 0 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.maps--map {
+    list-style-type: none;
+}
+
+.maps--link {
+    text-decoration: none;
+}
+
+.maps--link:hover {
+    text-decoration: underline;
+}

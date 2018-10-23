@@ -1,0 +1,20 @@
+.login {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+}
+
+.login--title {
+    font-size: 20px;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.auth-button {
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding:10px;
+    text-decoration: none;
+    background-color: #4ba8f8;
+    color: #fff;
+}

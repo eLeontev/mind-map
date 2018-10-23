@@ -11,18 +11,19 @@ import './map-menu.css';
 
 let { getMapsByUserID, createNewMap } = services;
 
+let MESSAGE = 'no maps yet';
 let initialState = {
     userName: 'User',
     newMapName: '',
     maps: [
-        {
-            id: 'id',
-            label: 'mapName',
-        },
-        {
-            id: 'id3',
-            label: 'mapName2',
-        },
+        // {
+        //     id: 'id',
+        //     label: 'mapName',
+        // },
+        // {
+        //     id: 'id3',
+        //     label: 'mapName2',
+        // },
     ],
 };
 
@@ -65,8 +66,8 @@ class MapMenu extends Component {
         return (
             <div className="menu">
                 <h1 className="menu--title">
-                    welcome to Mind-Map,
-                    {userName}
+                    Welcome to Mind-Map,
+                    {' ' + userName}
                 </h1>
                 <label className="menu--label">
                     <Input
@@ -74,7 +75,11 @@ class MapMenu extends Component {
                         callback={this.validateAndGoToNewCreatedMap}
                     />
                 </label>
-                <Maps maps={maps} />
+                {maps.length
+                    ? <Maps maps={maps} />
+                    : <p className="message">{MESSAGE}</p>
+                }
+                
                 <SignOut callback={this.signOut} />
             </div>
         );

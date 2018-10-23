@@ -41,7 +41,7 @@ export class TextArea extends Component {
                 className={className}
                 onKeyDown={preventFocus}
                 onKeyPress={onEnterUpdate}
-                onChange={({ target: { value } }) => updateLabel(id, value)}
+                onChange={({ target: { value } }) => updateLabel(id, value.trim())}
             />
         );
     }

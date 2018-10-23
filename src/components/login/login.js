@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom';
 import './login.css';
 
 export let Login = () => (
-    <div>
-        <p>Login</p>
-        <Link to="/mind-map">Go to maps</Link>
+    <div className="login">
+        <h1 className="login--title">Login</h1>
+        <Link 
+            className="auth-button"
+            to="/auth/google"
+        >
+            Google AUTH
+        </Link>
     </div>
 );
