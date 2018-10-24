@@ -9,17 +9,17 @@ export let routesConfig = [
     {
         path: '/auth/google',
         exact: true,
-        component: () => <div>autorizing...</div>
+        component: () => <div>autorizing...</div>,
     },
     {
         path: '/auth/google/redirect',
         exact: true,
-        component: () => <div>redirecting...</div>
+        component: () => <div>redirecting...</div>,
     },
     {
         exact: true,
         path: '/',
-        component: () => <Redirect to='/maps' />
+        component: () => <Redirect to="/maps" />,
     },
     {
         exact: true,

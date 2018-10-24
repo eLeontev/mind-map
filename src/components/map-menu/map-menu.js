@@ -49,7 +49,9 @@ class MapMenu extends Component {
         let mapLabel = label.trim();
 
         if (isUniqLabel && label.trim()) {
-            return createNewMap(mapLabel).then((label) => history.push(`/maps/${label}`));
+            return createNewMap(mapLabel).then((label) =>
+                history.push(`/maps/${label}`)
+            );
         }
 
         return this.setState({ defaultValue: label });
@@ -67,7 +69,7 @@ class MapMenu extends Component {
             <div className="menu">
                 <h1 className="menu--title">
                     Welcome to Mind-Map,
-                    {' ' + userName}
+                    {`   ${userName}`}
                 </h1>
                 <label className="menu--label">
                     <Input
@@ -75,11 +77,12 @@ class MapMenu extends Component {
                         callback={this.validateAndGoToNewCreatedMap}
                     />
                 </label>
-                {maps.length
-                    ? <Maps maps={maps} />
-                    : <p className="message">{MESSAGE}</p>
-                }
-                
+                {maps.length ? (
+                    <Maps maps={maps} />
+                ) : (
+                    <p className="message">{MESSAGE}</p>
+                )}
+
                 <SignOut callback={this.signOut} />
             </div>
         );
