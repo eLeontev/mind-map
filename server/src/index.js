@@ -6,28 +6,33 @@ let bodyParser = require('body-parser');
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
+let { DB_URL } = require('./auth/keys');
+let store = require('./store');
 
 const app = express();
-
 const server = require('http').Server(app);
 
-// // MongoDB connection configuration
-// mongoose.Promise = global.Promise;
-// mongoose.connect(process.env.DB_URL, {useMongoClient: true}, (err, res) => {
-//   if (err)
-//     console.log(`err connecting to db on ${process.env.DB_URL}, err: ${err}`);
-//   else
-//     console.log(`----- Database connected on ${process.env.DB_URL} -----`);
-// }); // connect to our database
+let PORT = process.env.PORT;
 
-// Set port
-app.set('port', process.env.PORT || 8000);
+let startListenServer = () => (
+    server.listen(
+        PORT, 
+        () => console.log(`server started on ${PORT}`)
+    )
+);
+
+// MongoDB connection configuration
+mongoose.Promise = global.Promise;
+mongoose.connect(DB_URL, { useMongoClient: true })
+    .then(({ name }) => console.log(`successfully connected to DB: ${name}`))
+    .then(startListenServer)
+    .catch(console.error);
 
 // Allow cross origin
 app.use(cors());
 
 // Logger
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 // Validate each call before route
 app.use('/', (err, req, res, next) => next());
@@ -48,13 +53,26 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // Register routes. Loaded main route. Index route loads other routes.
 app.use(require('./index.route'));
 
-// Start listening server
-server.listen(process.env.PORT, () => console.log(`server started on ${process.env.PORT}`));
+let { get_ip: getIp } = require('ipware')();
+app.get('/page', (req, res) => {
+    let { cookies } = req;
+    let id = cookies && cookies.id;
 
-app.get('/page', ({ cookies }, res) => {
-    if (cookies && cookies.userData) {
+    // is not authorized
+    if (!id) {
+        return res.redirect('./auth/google'); 
+    }
+    
+    let { IP: storedIP } = store.getUser(id);
+    let { clientIp: receivedIP } = getIp(req);
+    console.log(storedIP)
+    console.log(receivedIP);
+    if (storedIP === receivedIP) {
         return res.send('worked');
     }
+
+    store.setUser(id, null);
+    res.clearCookie('userData');
 
     return res.redirect('./auth/google');
 });
