@@ -1,14 +1,13 @@
 require('dotenv').config();
-const express = require('express');
-let session = require('express-session');
+
+let express = require('express');
+let morgan = require('morgan');
+let bodyParser = require('body-parser');
+let cors = require('cors');
+let cookieParser = require('cookie-parser');
+let mongoose = require('mongoose');
+
 const app = express();
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const path = require('path');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const expressJwt = require('express-jwt');
-let cookieParser = require('cookie-parser')
 
 const server = require('http').Server(app);
 
@@ -31,16 +30,14 @@ app.use(cors());
 app.use(morgan('dev'));
 
 // Validate each call before route
-app.use('/', function (err, req, res, next) {
-  next();
-});
+app.use('/', (err, req, res, next) => next());
 
 // Set directory for express
 
 // Load body parser
 app.use(bodyParser.json());
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // set cookie parser
 app.use(cookieParser());
@@ -51,13 +48,13 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // Register routes. Loaded main route. Index route loads other routes.
 app.use(require('./index.route'));
 
-//Start listening server
+// Start listening server
 server.listen(process.env.PORT, () => console.log(`server started on ${process.env.PORT}`));
 
 app.get('/page', ({ cookies }, res) => {
-  if (cookies && cookies.userData) {
-    return res.send('worked');
-  };
+    if (cookies && cookies.userData) {
+        return res.send('worked');
+    }
 
-  return res.redirect('./auth/google');
-})
+    return res.redirect('./auth/google');
+});
