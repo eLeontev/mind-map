@@ -6,9 +6,9 @@ let bodyParser = require('body-parser');
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
-let { DB_URL } = require('./auth/keys');
-let store = require('./store');
+let { DB_URL } = require('../keys');
 let cache = require('./cache');
+let { checkUserMiddleware } = require('./auth/auth.controller');
 
 const app = express();
 const server = require('http').Server(app);

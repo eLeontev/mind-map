@@ -5,32 +5,59 @@ let maxAge = 24 * 60 * 60 * 1000; // one day in ms
 let cache = require('../cache');
 let User = require('../schemas/user.schema');
 
+let createOrUpdateUser = (user, id, userData) => {
+    if (user) {
+        return User.where({ id }).update(userData);
+    }
+
+    return new User(userData).save();
+};
+
+let generateSessionID = () => uuid();
+
+let saveCookieForUser = (res, sessionID) => {
+    res.cookie('sessionID', sessionID, {
+        maxAge,
+    });
+
+    return sessionID;
+};
+
+let setCacheForUser = (userDataWithIP, sessionID) => (
+    cache.set(sessionID, userDataWithIP)
+);
+
 let authController = {
-    middleware(req, res, next) {
+    loginMiddleware: (req, res, next) => {
         let { user: { id, displayName } } = req;
         let userData = { id, displayName };
 
         let IP = getIp(req).clientIp;
 
-        User.findOne({ id }).then((user) => {
-            if (user) {
-                return User.where({ id }).update(userData);
-            }
-
-            return new User(userData).save();
-        }).then(() => {
-            let sessionID = uuid();
-            cache.set(sessionID, {id, IP, displayName});
-
-            res.cookie('sessionID', sessionID, {
-                maxAge,
-            });
-        }).then(next)
+        User.findOne({ id })
+            .then((user) => createOrUpdateUser(user, id, userData))
+            .then(generateSessionID)
+            .then((sessionID) => saveCookieForUser(res, sessionID))
+            .then((sessionID) => setCacheForUser({ ...userData, IP }, sessionID))
+            .then(() => next())
             .catch(console.error);
     },
-    successLoginCallback(req, res) {
-        res.redirect('/maps');
-    },
+    successLoginCallback: (res) => res.redirect('/v1/maps'),
+    checkUserMiddleware: (req, res, next) => {
+        let { cookies } = req;
+        let sessionID = cookies && cookies.sessionID;
+
+        let { clientIp: receivedIP } = getIp(req);
+        let { IP: storedIP, id, displayName } = cache.get(sessionID || '') || {};
+
+        // is not authorized or expired / hacked
+        if (!sessionID || storedIP !== receivedIP) {
+            return res.redirect('/auth/google');
+        }
+
+        req.userData = { id, displayName };
+        return next();
+    }
 };
 
 module.exports = authController;

@@ -1,6 +1,6 @@
 let passport = require('passport');
 let { Strategy: GoogleStrategy } = require('passport-google-oauth20');
-let { googleKeys } = require('./keys');
+let { googleKeys } = require('../../keys');
 
 passport.use(new GoogleStrategy({
     ...googleKeys,

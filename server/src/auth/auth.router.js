@@ -3,7 +3,7 @@ require('./pasport.setup');
 let express = require('express');
 let passport = require('passport');
 
-let { middleware, successLoginCallback } = require('./auth.controller');
+let { loginMiddleware, successLoginCallback } = require('./auth.controller');
 
 let router = express.Router();
 
@@ -19,8 +19,8 @@ router.use(passport.authenticate(
 router.route('/google')
     .post((req, res) => res.send('Google authorizing'));
 
-router.use(middleware);
+router.use(loginMiddleware);
 router.route('/google/callback')
-    .get(successLoginCallback);
+    .get((req, res) => successLoginCallback(res));
 
 module.exports = router;

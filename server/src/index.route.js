@@ -1,9 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const map = require('./map/map.route');
-let auth = require('./auth/auth.router');
+let express = require('express');
 
-router.use('/v1/maps', map);
+let router = express.Router();
+
+let maps = require('./maps');
+let auth = require('./auth');
+
+router.use('/v1/maps', maps);
 router.use('/auth', auth);
 
 module.exports = router;
