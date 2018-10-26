@@ -8,6 +8,7 @@ let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
 let { DB_URL } = require('./auth/keys');
 let store = require('./store');
+let cache = require('./cache');
 
 const app = express();
 const server = require('http').Server(app);
@@ -54,25 +55,20 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 app.use(require('./index.route'));
 
 let { get_ip: getIp } = require('ipware')();
-app.get('/page', (req, res) => {
+app.get('/maps', (req, res) => {
     let { cookies } = req;
-    let id = cookies && cookies.id;
+    let sessionID = cookies && cookies.sessionID;
 
     // is not authorized
-    if (!id) {
-        return res.redirect('./auth/google'); 
+    if (!sessionID) {
+        return res.redirect('./auth/google');
     }
-    
-    let { IP: storedIP } = store.getUser(id);
+
     let { clientIp: receivedIP } = getIp(req);
-    console.log(storedIP)
-    console.log(receivedIP);
+    let { IP: storedIP } = cache.get(sessionID) || {};
     if (storedIP === receivedIP) {
         return res.send('worked');
     }
-
-    store.setUser(id, null);
-    res.clearCookie('userData');
 
     return res.redirect('./auth/google');
 });
