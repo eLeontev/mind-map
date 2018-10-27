@@ -42,7 +42,7 @@ let authController = {
             .then(() => next())
             .catch(console.error);
     },
-    successLoginCallback: (res) => res.redirect('/v1/maps'),
+    successLoginCallback: (res) => res.redirect('/rest/v1/maps'),
     checkUserMiddleware: (req, res, next) => {
         let { cookies } = req;
         let sessionID = cookies && cookies.sessionID;
@@ -52,7 +52,7 @@ let authController = {
 
         // is not authorized or expired / hacked
         if (!sessionID || storedIP !== receivedIP) {
-            return res.redirect('/auth/google');
+            // return res.status(401).send('The session has been expired');
         }
 
         req.userData = { id, displayName };
