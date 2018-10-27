@@ -21,7 +21,6 @@ let mapsController = {
             }));
     }, 
     createMap: ({ userData: { id: ownerID }, body: { label, blocks } }, res) => {
-        ownerID = 'ownerID'
         Map.findOne({ label, ownerID })
             .then((map) => {
                 if (map) {
@@ -39,7 +38,6 @@ let mapsController = {
             .catch((error) => sendStatusWithMessage(error, res));
     },
     saveAndUpdateMap: ({ userData: { id: ownerID }, body: { label, mapData } }, res) => {
-        ownerID = 'ownerID'
         Map.findOne({ ownerID, label })
             .then((map) => {
                 if (!map) {
