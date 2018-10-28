@@ -1,4 +1,5 @@
 let uuid = require('uuid/v1');
+let mongoose = require('mongoose');
 let Map = require('../schemas/map.schema');
 
 let generateError = (status, message) => {
@@ -15,16 +16,17 @@ let sendStatusWithMessage = ({ message, status = 400 }, res) => (
 let mapsController = {
     getMapsByOwner: ({ userData: {id, displayName } }, res) => {
         Map.find({ ownerID: id })
-            .then((maps) => res.send({
+            .then((maps = []) => res.send({
                 displayName,
-                maps: maps || [],
+                maps: maps.map(({ id, label }) => ({ id, label })),
             }));
     }, 
     createMap: ({ userData: { id: ownerID }, body: { label, blocks } }, res) => {
+        ownerID = 'empty'
         Map.findOne({ label, ownerID })
             .then((map) => {
                 if (map) {
-                    generateError(400, 'the payload is not verified')
+                    generateError(400, 'map Label should be uniq')
                 }
             })
             .then(() => new Map({
@@ -37,8 +39,8 @@ let mapsController = {
             )
             .catch((error) => sendStatusWithMessage(error, res));
     },
-    saveAndUpdateMap: ({ userData: { id: ownerID }, body: { label, mapData } }, res) => {
-        Map.findOne({ ownerID, label })
+    saveAndUpdateMap: ({ params: { id }, body: { mapData } }, res) => {
+        Map.findOne({ id })
             .then((map) => {
                 if (!map) {
                     generateError(400, 'the map is not created yet'); 
@@ -53,6 +55,20 @@ let mapsController = {
                 })
                 .then(res.send('updated'))
             )
+            .catch((error) => sendStatusWithMessage(error, res));
+    }, 
+    getMapByID: ({ params: id }, res) => {
+        Map.findOne(id)
+            .then((map) => {
+                console.log(map);
+                
+                if (!map) {
+                    generateError(400, 'not found');
+                }
+
+                return map;
+            })
+            .then((map) => res.send(map))
             .catch((error) => sendStatusWithMessage(error, res));
     }
 }
