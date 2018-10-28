@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+let path = require('path');
 let express = require('express');
 let morgan = require('morgan');
 let bodyParser = require('body-parser');
@@ -14,6 +15,13 @@ const app = express();
 const server = require('http').Server(app);
 
 let PORT = process.env.PORT;
+
+app.use(express.static(path.join(__dirname, '../../build')));
+
+app.get('/', function(req, res) {
+  console.log(path.join(__dirname, '../../build', 'index.html'))
+    res.sendFile(path.join(__dirname, '../../build', 'index.html'));
+});
 
 let startListenServer = () => (
     server.listen(

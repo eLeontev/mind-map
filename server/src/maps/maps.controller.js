@@ -1,5 +1,4 @@
 let uuid = require('uuid/v1');
-let mongoose = require('mongoose');
 let Map = require('../schemas/map.schema');
 
 let generateError = (status, message) => {

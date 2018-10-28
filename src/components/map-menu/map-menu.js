@@ -9,11 +9,11 @@ import { services } from '../../services';
 
 import './map-menu.css';
 
-let { getMapsByUserID, createNewMap } = services;
+let { getMaps, createNewMap } = services;
 
 let MESSAGE = 'no maps yet';
 let initialState = {
-    userName: 'User',
+    displayName: 'Unknown',
     newMapName: '',
     maps: [
         // {
@@ -32,11 +32,15 @@ class MapMenu extends Component {
         super(props);
 
         this.state = initialState;
+        this.getMaps = getMaps;
     }
 
     componentDidMount() {
         let { maps } = this.state;
-        getMapsByUserID(maps).then((maps) => this.setState({ maps }));
+        
+        this.getMaps(maps).then(({maps, displayName}) => 
+            this.setState({ maps, displayName })
+        );
     }
 
     validateAndGoToNewCreatedMap = (label) => {
@@ -63,13 +67,13 @@ class MapMenu extends Component {
     };
 
     render() {
-        let { userName, maps, defaultValue } = this.state;
+        let { displayName, maps, defaultValue } = this.state;
 
         return (
             <div className="menu">
                 <h1 className="menu--title">
                     Welcome to Mind-Map,
-                    {`   ${userName}`}
+                    {`   ${displayName}`}
                 </h1>
                 <label className="menu--label">
                     <Input

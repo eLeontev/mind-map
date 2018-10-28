@@ -1,6 +1,6 @@
-import { getMapsByUserID, createNewMap } from './map-menu.service';
+import { getMaps, createNewMap } from './map-menu.service';
 
 export let services = {
-    getMapsByUserID,
+    getMaps,
     createNewMap,
 };
