@@ -13,12 +13,11 @@ let sendStatusWithMessage = ({ message, status = 400 }, res) => (
 );
 
 let mapsController = {
-    getMapsByOwner: ({ userData: {id, displayName } }, res) => {
+    getMapsByOwner: ({ userData: { id } }, res) => {
         Map.find({ ownerID: id })
-            .then((maps = []) => res.send({
-                displayName,
-                maps: maps.map(({ id, label }) => ({ id, label })),
-            }));
+            .then((maps = []) => (
+                res.send(maps.map(({ id, label }) => ({ id, label }))))
+            );
     }, 
     createMap: ({ userData: { id: ownerID }, body: { label, blocks } }, res) => {
         ownerID = 'empty'
