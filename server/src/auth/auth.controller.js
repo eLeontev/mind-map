@@ -42,7 +42,7 @@ let authController = {
             .then(() => next())
             .catch(console.error);
     },
-    successLoginCallback: (res) => res.redirect('/rest/v1/maps'),
+    successLoginCallback: (res) => res.redirect('/'),
     checkUserMiddleware: (req, res, next) => {
         let { cookies } = req;
         let sessionID = cookies && cookies.sessionID;

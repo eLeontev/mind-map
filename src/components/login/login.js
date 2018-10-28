@@ -1,26 +1,17 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 
 import './login.css';
 
-let Login = ({ history }) => {
-    let login = () => {
-        fetch('/auth/google', {
-            method: 'GET',
-            mode: 'no-cors'
-        })
-        .then(() => history.push('/maps'))
-        .catch(console.error)    
-    }
+export let Login = () => { 
+    //TODO implement logic
     return (
         <div className="login">
             <h1 className="login--title">Login</h1>
-            <button className="auth-button"
-                onClick={login}
+            <a className="auth-button"
+                href="auth/google"
             >
                 Google AUTH
-            </button>
+            </a>
         </div>
-)};
-
-export default withRouter(Login);
+    )
+};
