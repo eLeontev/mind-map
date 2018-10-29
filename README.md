@@ -19,7 +19,7 @@ A modern approach to structuring and data processing. Provides a way to build tr
 
 Initially display one block (root block in particular) in edit mode. 
 Begin typing to start work with mind-map.
-Press Enter after finishing the text. This will end the edit mode.
+Press Enter after finishing the text.This will end the edit mode.
 
 Now press Tab to create a new child block. *Each new block will be displayed in edit mode by default with the focus on the text area.
 
