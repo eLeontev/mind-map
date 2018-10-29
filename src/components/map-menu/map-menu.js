@@ -3,28 +3,20 @@ import { withRouter } from 'react-router';
 
 import Input from '../input';
 import Maps from '../maps';
-import SignOut from '../sign-out';
+import Button from '../button';
 
 import { services } from '../../services';
 
 import './map-menu.css';
 
-let { getMaps, createNewMap } = services;
+let { getMaps, createMap } = services;
 
+let SIGN_OUT = 'Sign out';
 let MESSAGE = 'no maps yet';
 let initialState = {
     displayName: 'Unknown',
     newMapName: '',
-    maps: [
-        // {
-        //     id: 'id',
-        //     label: 'mapName',
-        // },
-        // {
-        //     id: 'id3',
-        //     label: 'mapName2',
-        // },
-    ],
+    maps: [],
 };
 
 class MapMenu extends Component {
@@ -38,9 +30,9 @@ class MapMenu extends Component {
     componentDidMount() {
         let { maps } = this.state;
         
-        this.getMaps(maps).then(({maps, displayName}) => 
+        this.getMaps(maps).then(({maps = [], displayName = 'user'}) => 
             this.setState({ maps, displayName })
-        );
+        ).catch(({ message }) => console.error(message));
     }
 
     validateAndGoToNewCreatedMap = (label) => {
@@ -53,9 +45,11 @@ class MapMenu extends Component {
         let mapLabel = label.trim();
 
         if (isUniqLabel && label.trim()) {
-            return createNewMap(mapLabel).then((label) =>
-                history.push(`/maps/${label}`)
-            );
+            return createMap(mapLabel).then(({ label, id }) =>
+                history.push(`/maps/${label}`, {
+                    id
+                })
+            ).catch(console.error);
         }
 
         return this.setState({ defaultValue: label });
@@ -73,7 +67,7 @@ class MapMenu extends Component {
             <div className="menu">
                 <h1 className="menu--title">
                     Welcome to Mind-Map,
-                    {`   ${displayName}`}
+                    {` ${displayName}`}
                 </h1>
                 <label className="menu--label">
                     <Input
@@ -87,7 +81,9 @@ class MapMenu extends Component {
                     <p className="message">{MESSAGE}</p>
                 )}
 
-                <SignOut callback={this.signOut} />
+                <Button
+                    label={SIGN_OUT}
+                    callback={this.signOut} />
             </div>
         );
     }

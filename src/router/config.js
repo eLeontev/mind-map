@@ -6,11 +6,11 @@ import Login from '../components/login';
 import PageNotFound from '../components/page-not-found';
 
 export let routesConfig = [
-    {
-        path: '/auth/google',
-        exact: true,
-        component: () => <div>autorizing...</div>,
-    },
+    // {
+        // path: '/auth/google',
+        // exact: true,
+        // component: () => <div>autorizing...</div>,
+    // },
     {
         path: '/auth/google/callback',
         exact: true,
@@ -33,7 +33,7 @@ export let routesConfig = [
     },
     {
         exact: true,
-        path: '/maps/:id',
+        path: '/maps/:label',
         component: MindMap,
     },
     {

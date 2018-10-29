@@ -14,11 +14,13 @@ const mapSchema = mongoose.Schema({
         required: true,
     },
     blocks: {
-        type: [{               
+        type: [{
+            id: String,             
             parentID: String,
             isEditMode: Boolean,
             hasChildren: Boolean,
             value: String,
+            isRoot: Boolean
         }],
     }
 }, {

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import Block from '../block';
+import Button from '../button';
 
 import { CONSTANTS } from '../../constants';
 import { utils } from '../../utils';
+import { services } from '../../services';
 
 import './mind-map.css';
 
+let SAVE_LABEL = 'Save';
+let { getMapByID, saveMapByID } = services;
 let { guid, getNewBlock } = utils;
 let {
     elementsHandledOnCLick,
@@ -23,14 +27,17 @@ class MindMap extends Component {
             enableCreateNewBlock: true,
             blocks: [{ ...rootBlock }],
         };
+
+        this.getMapByID = getMapByID;
+        this.saveMapByID = saveMapByID; 
     }
 
     componentDidMount() {
         document.addEventListener('keydown', this.keyDown, false);
         document.addEventListener('mousedown', this.clickOnEmptySpace, true);
 
-        let { match: { params: { id } } } = this.props;
-        this.loadMap(id);
+        let { props } = this;
+        this.loadMap(this.getMapID(props));
     }
 
     componentWillUnmount() {
@@ -38,10 +45,17 @@ class MindMap extends Component {
         document.removeEventListener('mousedown', this.clickOnEmptySpace, true);
     }
 
-    loadMap = (id) => {
-        let { state } = this.state;
+    getMapID = ( { location: { state: { id } } }) => id;
 
-        new Promise((res) => res(id)).then(() => this.setState({ ...state }));
+    loadMap = (id) => {
+        let { state } = this;
+        
+        this.getMapByID(id)
+            .then(({ blocks }) => {
+                blocks = blocks.length ? blocks: state.blocks;
+                this.setState({ blocks });
+            })
+            .catch(console.error);
     };
 
     keyDown = (event) => {
@@ -280,6 +294,13 @@ class MindMap extends Component {
         return blocks;
     };
 
+    saveMap = () => {
+        let { props, state: { blocks } } = this; 
+        this.saveMapByID(this.getMapID(props), blocks)
+            .then(({ status }) => console.log(status))
+            .catch(console.error);
+    };
+
     render() {
         let { blocks } = this.state;
         let [rootBlock] = blocks;
@@ -290,7 +311,17 @@ class MindMap extends Component {
             removeBlockWithChildren: this.removeBlockWithChildren,
         };
 
-        return <Block block={rootBlock} blocks={blocks} hadnlers={hadnlers} />;
+        return (
+            <div>
+                <Button 
+                    label={SAVE_LABEL} 
+                    callback={this.saveMap}
+                />
+                <div id="mind-map">
+                    <Block block={rootBlock} blocks={blocks} hadnlers={hadnlers} />
+                </div>
+            </div>
+        )
     }
 }
 

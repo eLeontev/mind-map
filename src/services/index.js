@@ -1,6 +1,13 @@
-import { getMaps, createNewMap } from './map-menu.service';
+import { 
+    getMaps, 
+    createMap,
+    getMapByID, 
+    saveMapByID,
+} from './map-menu.service';
 
 export let services = {
     getMaps,
-    createNewMap,
+    createMap,
+    getMapByID,
+    saveMapByID,
 };

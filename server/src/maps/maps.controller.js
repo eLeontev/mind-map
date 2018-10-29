@@ -2,14 +2,11 @@ let uuid = require('uuid/v1');
 let Map = require('../schemas/map.schema');
 
 let generateError = (status, message) => {
-    throw new Error({
-        status,
-        message
-    })      
+    throw new Error(`Status: ${status} - ${message}`)      
 };
 
-let sendStatusWithMessage = ({ message, status = 400 }, res) => (
-    res.status(status).send(message)
+let sendStatusWithMessage = (message, res) => (
+    res.status(400).send(message)
 );
 
 let mapsController = {
@@ -19,8 +16,7 @@ let mapsController = {
                 res.send(maps.map(({ id, label }) => ({ id, label }))))
             );
     }, 
-    createMap: ({ userData: { id: ownerID }, body: { label, blocks } }, res) => {
-        ownerID = 'empty'
+    createMap: ({ userData: { id: ownerID = 'testID' }, body: { label, blocks } }, res) => {
         Map.findOne({ label, ownerID })
             .then((map) => {
                 if (map) {
@@ -33,11 +29,12 @@ let mapsController = {
                     ownerID,
                     blocks,
                 }).save()
-                    .then((data) => res.send(data))
+                    .then((map) => res.send(map))
             )
-            .catch((error) => sendStatusWithMessage(error, res));
+            .catch(({ ValidatorError }) => sendStatusWithMessage(ValidatorError, res));
     },
     saveAndUpdateMap: ({ params: { id }, body: { mapData } }, res) => {
+        console.log(mapData)
         Map.findOne({ id })
             .then((map) => {
                 if (!map) {
@@ -51,15 +48,13 @@ let mapsController = {
                     ...map.toString(),
                     ...mapData
                 })
-                .then(res.send('updated'))
+                .then(res.send({status: 'updated'}))
             )
             .catch((error) => sendStatusWithMessage(error, res));
     }, 
     getMapByID: ({ params: id }, res) => {
         Map.findOne(id)
             .then((map) => {
-                console.log(map);
-                
                 if (!map) {
                     generateError(400, 'not found');
                 }
