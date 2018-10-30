@@ -4,18 +4,14 @@ import { withRouter } from 'react-router';
 
 import './main.css';
 
-class Main extends Component  {
+class Main extends Component {
     componentDidMount() {
-        let {history} = this.props;
+        let { history } = this.props;
         history.push('/login');
     }
 
     render() {
-        return (
-            <div className="main">
-                User autentification...
-            </div>
-        );
+        return <div className="main">User autentification...</div>;
     }
 }
 

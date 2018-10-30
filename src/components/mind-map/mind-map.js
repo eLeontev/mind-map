@@ -9,7 +9,6 @@ import { services } from '../../services';
 import './mind-map.css';
 
 let SAVE_LABEL = 'Save';
-let { getMapByID, saveMapByID } = services;
 let { guid, getNewBlock } = utils;
 let {
     elementsHandledOnCLick,
@@ -28,8 +27,7 @@ class MindMap extends Component {
             blocks: [{ ...rootBlock }],
         };
 
-        this.getMapByID = getMapByID;
-        this.saveMapByID = saveMapByID; 
+        this.services = services;
     }
 
     componentDidMount() {
@@ -45,14 +43,18 @@ class MindMap extends Component {
         document.removeEventListener('mousedown', this.clickOnEmptySpace, true);
     }
 
-    getMapID = ( { location: { state: { id } } }) => id;
+    getMapID = ({
+        location: {
+            state: { id },
+        },
+    }) => id;
 
     loadMap = (id) => {
         let { state } = this;
-        
-        this.getMapByID(id)
+
+        this.services.getMapByID(id)
             .then(({ blocks }) => {
-                blocks = blocks.length ? blocks: state.blocks;
+                blocks = blocks.length ? blocks : state.blocks;
                 this.setState({ blocks });
             })
             .catch(console.error);
@@ -295,8 +297,11 @@ class MindMap extends Component {
     };
 
     saveMap = () => {
-        let { props, state: { blocks } } = this; 
-        this.saveMapByID(this.getMapID(props), blocks)
+        let {
+            props,
+            state: { blocks },
+        } = this;
+        this.services.saveMapByID(this.getMapID(props), blocks)
             .then(({ status }) => console.log(status))
             .catch(console.error);
     };
@@ -313,15 +318,16 @@ class MindMap extends Component {
 
         return (
             <div>
-                <Button 
-                    label={SAVE_LABEL} 
-                    callback={this.saveMap}
-                />
+                <Button label={SAVE_LABEL} callback={this.saveMap} />
                 <div id="mind-map">
-                    <Block block={rootBlock} blocks={blocks} hadnlers={hadnlers} />
+                    <Block
+                        block={rootBlock}
+                        blocks={blocks}
+                        hadnlers={hadnlers}
+                    />
                 </div>
             </div>
-        )
+        );
     }
 }
 

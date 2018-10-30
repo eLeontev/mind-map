@@ -1,7 +1,7 @@
-import { 
-    getMaps, 
+import {
+    getMaps,
     createMap,
-    getMapByID, 
+    getMapByID,
     saveMapByID,
 } from './map-menu.service';
 

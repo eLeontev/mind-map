@@ -29,10 +29,12 @@ class MapMenu extends Component {
 
     componentDidMount() {
         let { maps } = this.state;
-        
-        this.getMaps(maps).then(({maps = [], displayName = 'user'}) => 
-            this.setState({ maps, displayName })
-        ).catch(({ message }) => console.error(message));
+
+        this.getMaps(maps)
+            .then(({ maps = [], displayName = 'user' }) =>
+                this.setState({ maps, displayName })
+            )
+            .catch(({ message }) => console.error(message));
     }
 
     validateAndGoToNewCreatedMap = (label) => {
@@ -45,11 +47,13 @@ class MapMenu extends Component {
         let mapLabel = label.trim();
 
         if (isUniqLabel && label.trim()) {
-            return createMap(mapLabel).then(({ label, id }) =>
-                history.push(`/maps/${label}`, {
-                    id
-                })
-            ).catch(console.error);
+            return createMap(mapLabel)
+                .then(({ label, id }) =>
+                    history.push(`/maps/${label}`, {
+                        id,
+                    })
+                )
+                .catch(console.error);
         }
 
         return this.setState({ defaultValue: label });
@@ -81,9 +85,7 @@ class MapMenu extends Component {
                     <p className="message">{MESSAGE}</p>
                 )}
 
-                <Button
-                    label={SIGN_OUT}
-                    callback={this.signOut} />
+                <Button label={SIGN_OUT} callback={this.signOut} />
             </div>
         );
     }
