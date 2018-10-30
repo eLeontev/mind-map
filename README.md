@@ -1,4 +1,6 @@
-## Mind-map 
+## Mind-map
+
+[![Build Status](https://travis-ci.com/eLeontev/mind-map.svg?branch=master)](https://travis-ci.com/eLeontev/mind-map)
 
 A modern approach to structuring and data processing. Provides a way to build tree-graph dependencies with one root block. 
 
