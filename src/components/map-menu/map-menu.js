@@ -28,12 +28,8 @@ class MapMenu extends Component {
     }
 
     componentDidMount() {
-        let { maps } = this.state;
-
-        this.getMaps(maps)
-            .then(({ maps = [], displayName = 'user' }) =>
-                this.setState({ maps, displayName })
-            )
+        this.getMaps()
+            .then((maps) => this.setState({ maps }))
             .catch(({ message }) => console.error(message));
     }
 

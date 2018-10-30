@@ -3,9 +3,9 @@ import Label from '../label';
 
 import './block.css';
 
-export let Block = ({ block, blocks, hadnlers }) => {
+export let Block = ({ block, blocks, handlers }) => {
     let { id, hasChildren, isEditMode, isRoot = false } = block;
-    let { removeBlockWithChildren } = hadnlers;
+    let { removeBlockWithChildren } = handlers;
 
     let childrenBlocks = blocks.filter(({ parentID }) => parentID === id);
     let shoudDisplaySeparator = childrenBlocks.length > 1;
@@ -16,7 +16,7 @@ export let Block = ({ block, blocks, hadnlers }) => {
                 key={block.id}
                 block={block}
                 blocks={blocks}
-                hadnlers={hadnlers}
+                handlers={handlers}
             />
         ));
 
@@ -24,7 +24,7 @@ export let Block = ({ block, blocks, hadnlers }) => {
     return (
         <div className="block">
             <div className="block--label-container">
-                <Label block={block} {...hadnlers} />
+                <Label block={block} {...handlers} />
                 {souldDisplayRemoveButton && (
                     <button
                         className="block--remove-button"

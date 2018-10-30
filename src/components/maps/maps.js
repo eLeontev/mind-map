@@ -8,7 +8,13 @@ export let Maps = ({ maps }) => (
     <ul className="maps">
         {maps.map(({ id, label }, index) => (
             <li key={id} className="maps--map">
-                <Link className="maps--link" to={`/maps/${id}`}>
+                <Link
+                    className="maps--link"
+                    to={{
+                        pathname: `/maps/${label}`,
+                        state: { id }
+                    }}
+                >
                     <span>{index + 1}. </span>
                     {label}
                 </Link>

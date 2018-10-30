@@ -1,4 +1,14 @@
-#mind-map {
+.mind-map-container {
+    margin: auto;
+}
+
+.mind-map {
     display: flex;
     flex-flow: row wrap;
+}
+
+.mind-map-menu {
+    position: fixed;
+    top: 0px;
+    left: 0px;
 }

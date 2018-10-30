@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+
 import Block from '../block';
-import Button from '../button';
+import MindMapMenu from '../mind-map-menu';
 
 import { CONSTANTS } from '../../constants';
 import { utils } from '../../utils';
@@ -8,7 +10,6 @@ import { services } from '../../services';
 
 import './mind-map.css';
 
-let SAVE_LABEL = 'Save';
 let { guid, getNewBlock } = utils;
 let {
     elementsHandledOnCLick,
@@ -21,7 +22,18 @@ class MindMap extends Component {
     constructor(props) {
         super(props);
 
+        let {
+            props: {
+                location: {
+                    state: {
+                        id,
+                    }
+                }
+            }
+        } = this;
+
         this.state = {
+            id,
             selectedBlockID: 0,
             enableCreateNewBlock: true,
             blocks: [{ ...rootBlock }],
@@ -34,20 +46,14 @@ class MindMap extends Component {
         document.addEventListener('keydown', this.keyDown, false);
         document.addEventListener('mousedown', this.clickOnEmptySpace, true);
 
-        let { props } = this;
-        this.loadMap(this.getMapID(props));
+        let { id } = this.state;
+        this.loadMap(id);
     }
 
     componentWillUnmount() {
         document.removeEventListener('keydown', this.keyDown, false);
         document.removeEventListener('mousedown', this.clickOnEmptySpace, true);
     }
-
-    getMapID = ({
-        location: {
-            state: { id },
-        },
-    }) => id;
 
     loadMap = (id) => {
         let { state } = this;
@@ -296,20 +302,10 @@ class MindMap extends Component {
         return blocks;
     };
 
-    saveMap = () => {
-        let {
-            props,
-            state: { blocks },
-        } = this;
-        this.services.saveMapByID(this.getMapID(props), blocks)
-            .then(({ status }) => console.log(status))
-            .catch(console.error);
-    };
-
     render() {
-        let { blocks } = this.state;
+        let { id, blocks } = this.state;
         let [rootBlock] = blocks;
-        let hadnlers = {
+        let handlers = {
             updateLabel: this.updateLabel,
             closeLabel: this.closeLabel,
             switchLabelToEditMode: this.switchLabelToEditMode,
@@ -317,13 +313,16 @@ class MindMap extends Component {
         };
 
         return (
-            <div>
-                <Button label={SAVE_LABEL} callback={this.saveMap} />
-                <div id="mind-map">
+            <div className="mind-map-container">
+                <MindMapMenu
+                    id={id}
+                    blocks={blocks}
+                />
+                <div className="mind-map">
                     <Block
                         block={rootBlock}
                         blocks={blocks}
-                        hadnlers={hadnlers}
+                        handlers={handlers}
                     />
                 </div>
             </div>
@@ -331,4 +330,4 @@ class MindMap extends Component {
     }
 }
 
-export default MindMap;
+export default withRouter(MindMap);
