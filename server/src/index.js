@@ -9,7 +9,6 @@ let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
 let { DB_URL } = require('../keys');
 let cache = require('./cache');
-let { checkUserMiddleware } = require('./auth/auth.controller');
 
 const app = express();
 const server = require('http').Server(app);
@@ -61,22 +60,3 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Register routes. Loaded main route. Index route loads other routes.
 app.use(require('./index.route'));
-
-let { get_ip: getIp } = require('ipware')();
-app.get('/maps', (req, res) => {
-    let { cookies } = req;
-    let sessionID = cookies && cookies.sessionID;
-
-    // is not authorized
-    if (!sessionID) {
-        return res.redirect('./auth/google');
-    }
-
-    let { clientIp: receivedIP } = getIp(req);
-    let { IP: storedIP } = cache.get(sessionID) || {};
-    if (storedIP === receivedIP) {
-        return res.send('worked');
-    }
-
-    return res.redirect('./auth/google');
-});

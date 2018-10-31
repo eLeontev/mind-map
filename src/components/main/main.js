@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
+import { services } from '../../services';
+
 import './main.css';
+
+let { isUserAutorized } = services;
 
 class Main extends Component {
     componentDidMount() {
         let { history } = this.props;
-        history.push('/login');
+        
+        isUserAutorized()
+            .then((displayName) => {
+                debugger;
+                history.push('/maps', displayName);
+            })
+            .catch(() => {
+                debugger;
+                history.push('/login')
+            });
     }
 
     render() {

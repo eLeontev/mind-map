@@ -52,12 +52,12 @@ let authController = {
 
         // is not authorized or expired / hacked
         if (!sessionID || storedIP !== receivedIP) {
-            // return res.status(401).send('The session has been expired');
+            return res.status(401).send('The session has been expired');
         }
 
         req.userData = { id, displayName };
         return next();
-    }
+    },
 };
 
 module.exports = authController;

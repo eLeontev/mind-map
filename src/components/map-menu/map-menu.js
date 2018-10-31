@@ -14,7 +14,6 @@ let { getMaps, createMap } = services;
 let SIGN_OUT = 'Sign out';
 let MESSAGE = 'no maps yet';
 let initialState = {
-    displayName: 'Unknown',
     newMapName: '',
     maps: [],
 };
@@ -22,8 +21,18 @@ let initialState = {
 class MapMenu extends Component {
     constructor(props) {
         super(props);
+        let { 
+            location: {
+                state: {
+                    displayName
+                }
+            }
+        } = props;
 
-        this.state = initialState;
+        this.state = {
+            ...initialState,
+            displayName
+        };
         this.getMaps = getMaps;
     }
 

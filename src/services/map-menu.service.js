@@ -9,6 +9,7 @@ let headers = {
 let middleware = (message) => (res) => {
     let { status } = res;
 
+    debugger;
     if (status !== SUCCESS_STATUS) {
         throw new Error(message);
     }
@@ -51,6 +52,15 @@ export let saveMapByID = (id, blocks) =>
                 blocks,
             },
         }),
+    })
+        .then(middleware('is not authorized'))
+        .then((res) => res.json());
+
+
+
+export let isUserAutorized = () =>
+    fetch('/isUserAutorized', {
+        method: 'GET',
     })
         .then(middleware('is not authorized'))
         .then((res) => res.json());

@@ -3,7 +3,7 @@ require('./pasport.setup');
 let express = require('express');
 let passport = require('passport');
 
-let { loginMiddleware, successLoginCallback } = require('./auth.controller');
+let { loginMiddleware, successLoginCallback, isUserAutorized } = require('./auth.controller');
 
 let router = express.Router();
 
