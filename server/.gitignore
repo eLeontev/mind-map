@@ -22,4 +22,4 @@ yarn-error.log*
 
 
 # keys
-/src/auth/keys.js
+/keys.js

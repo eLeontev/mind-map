@@ -21,7 +21,7 @@ let initialState = {
 class MapMenu extends Component {
     constructor(props) {
         super(props);
-        let { 
+        let {
             location: {
                 state: {
                     displayName

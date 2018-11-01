@@ -3,7 +3,7 @@ import {
     createMap,
     getMapByID,
     saveMapByID,
-    isUserAutorized,
+    isUserAuthorized,
 } from './map-menu.service';
 
 export let services = {
@@ -11,5 +11,5 @@ export let services = {
     createMap,
     getMapByID,
     saveMapByID,
-    isUserAutorized,
+    isUserAuthorized,
 };

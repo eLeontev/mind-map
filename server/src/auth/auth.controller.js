@@ -1,5 +1,6 @@
 let { get_ip: getIp } = require('ipware')();
 let uuid = require('uuid/v1');
+
 let maxAge = 24 * 60 * 60 * 1000; // one day in ms
 
 let cache = require('../cache');
@@ -39,8 +40,7 @@ let authController = {
             .then(generateSessionID)
             .then((sessionID) => saveCookieForUser(res, sessionID))
             .then((sessionID) => setCacheForUser({ ...userData, IP }, sessionID))
-            .then(() => next())
-            .catch(console.error);
+            .then(() => next());
     },
     successLoginCallback: (res) => res.redirect('/'),
     checkUserMiddleware: (req, res, next) => {

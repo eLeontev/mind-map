@@ -5,21 +5,14 @@ import { services } from '../../services';
 
 import './main.css';
 
-let { isUserAutorized } = services;
+let { isUserAuthorized } = services;
 
 class Main extends Component {
     componentDidMount() {
         let { history } = this.props;
-        
-        isUserAutorized()
-            .then((displayName) => {
-                debugger;
-                history.push('/maps', displayName);
-            })
-            .catch(() => {
-                debugger;
-                history.push('/login')
-            });
+        isUserAuthorized()
+            .then((displayName) => history.push('/maps', displayName))
+            .catch(() => history.push('/login'));
     }
 
     render() {
