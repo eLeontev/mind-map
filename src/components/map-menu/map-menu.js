@@ -9,9 +9,13 @@ import { services } from '../../services';
 
 import './map-menu.css';
 
-let { getMaps, createMap } = services;
+let { 
+    getMaps,
+    createMap,
+    signOff,
+} = services;
 
-let SIGN_OUT = 'Sign out';
+let SIGN_OFF = 'Sign off';
 let MESSAGE = 'no maps yet';
 let initialState = {
     newMapName: '',
@@ -33,7 +37,10 @@ class MapMenu extends Component {
             ...initialState,
             displayName
         };
+
         this.getMaps = getMaps;
+        this.signOff = signOff;
+        this.createMap = createMap;
     }
 
     componentDidMount() {
@@ -52,7 +59,7 @@ class MapMenu extends Component {
         let mapLabel = label.trim();
 
         if (isUniqLabel && label.trim()) {
-            return createMap(mapLabel)
+            return this.createMap(mapLabel)
                 .then(({ label, id }) =>
                     history.push(`/maps/${label}`, {
                         id,
@@ -64,9 +71,14 @@ class MapMenu extends Component {
         return this.setState({ defaultValue: label });
     };
 
-    signOut = () => {
-        let { history } = this.props;
-        history.push('/login');
+    signOffHandler = () => {
+        this.signOff()
+            .then(() => {
+                console.log(1);
+                let { history } = this.props;
+                history.push('/login');        
+            })
+            .catch(console.error);
     };
 
     render() {
@@ -90,7 +102,7 @@ class MapMenu extends Component {
                     <p className="message">{MESSAGE}</p>
                 )}
 
-                <Button label={SIGN_OUT} callback={this.signOut} />
+                <Button label={SIGN_OFF} callback={this.signOffHandler} />
             </div>
         );
     }

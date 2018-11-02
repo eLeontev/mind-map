@@ -14,6 +14,18 @@ let helperController = {
         }
         return rej();
     }),
+    clearCache: (req) => new Promise((res, rej) => {
+        let { cookies = {} } = req;
+
+        cache.del(cookies.sessionID, (error) => {
+            if (error) {
+                return rej(error);
+            }
+
+            res();
+        });
+    }),
+    clearCookie: (res) => res.clearCookie('sessionID'),
 };
 
 module.exports = helperController;

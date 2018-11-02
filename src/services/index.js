@@ -4,6 +4,7 @@ import {
     getMapByID,
     saveMapByID,
     isUserAuthorized,
+    signOff,
 } from './map-menu.service';
 
 export let services = {
@@ -12,4 +13,5 @@ export let services = {
     getMapByID,
     saveMapByID,
     isUserAuthorized,
+    signOff,
 };

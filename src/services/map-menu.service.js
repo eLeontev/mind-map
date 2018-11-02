@@ -61,4 +61,10 @@ export let isUserAuthorized = () =>
     })
         .then(middleware('is not authorized'))
         .then((res) => res.json());
-св
+
+export let signOff = () => 
+    fetch('/helper/signOff', {
+        headers,
+        method: 'POST',
+    })
+        .then(middleware('is not authorized'));
