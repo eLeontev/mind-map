@@ -19,12 +19,10 @@ class MindMapMenu extends Component {
 
     saveMap = () => {
         let {
-            props: {
-                blocks,
-                id,
-            },
+            props: { blocks, id },
         } = this;
-        this.services.saveMapByID(id, blocks)
+        this.services
+            .saveMapByID(id, blocks)
             .then(({ status }) => console.log(status))
             .catch(console.error);
     };
@@ -37,7 +35,10 @@ class MindMapMenu extends Component {
     render() {
         return (
             <div className="mind-map-menu">
-                <Button label={BACK_TO_MENU_LABEL} callback={this.goToMapMenu} />
+                <Button
+                    label={BACK_TO_MENU_LABEL}
+                    callback={this.goToMapMenu}
+                />
                 <Button label={SAVE_LABEL} callback={this.saveMap} />
             </div>
         );

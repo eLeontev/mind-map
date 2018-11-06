@@ -25,11 +25,9 @@ class MindMap extends Component {
         let {
             props: {
                 location: {
-                    state: {
-                        id,
-                    }
-                }
-            }
+                    state: { id },
+                },
+            },
         } = this;
 
         this.state = {
@@ -58,7 +56,8 @@ class MindMap extends Component {
     loadMap = (id) => {
         let { state } = this;
 
-        this.services.getMapByID(id)
+        this.services
+            .getMapByID(id)
             .then(({ blocks }) => {
                 blocks = blocks.length ? blocks : state.blocks;
                 this.setState({ blocks });
@@ -314,10 +313,7 @@ class MindMap extends Component {
 
         return (
             <div className="mind-map-container">
-                <MindMapMenu
-                    id={id}
-                    blocks={blocks}
-                />
+                <MindMapMenu id={id} blocks={blocks} />
                 <div className="mind-map">
                     <Block
                         block={rootBlock}

@@ -9,11 +9,7 @@ import { services } from '../../services';
 
 import './map-menu.css';
 
-let { 
-    getMaps,
-    createMap,
-    signOff,
-} = services;
+let { getMaps, createMap, signOff } = services;
 
 let SIGN_OFF = 'Sign off';
 let MESSAGE = 'no maps yet';
@@ -27,15 +23,13 @@ class MapMenu extends Component {
         super(props);
         let {
             location: {
-                state: {
-                    displayName
-                }
-            }
+                state: { displayName },
+            },
         } = props;
 
         this.state = {
             ...initialState,
-            displayName
+            displayName,
         };
 
         this.getMaps = getMaps;
@@ -76,7 +70,7 @@ class MapMenu extends Component {
             .then(() => {
                 console.log(1);
                 let { history } = this.props;
-                history.push('/login');        
+                history.push('/login');
             })
             .catch(console.error);
     };

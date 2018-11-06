@@ -1,5 +1,5 @@
 let express = require('express');
-let { 
+let {
     isUserAuthorized,
     clearCache,
     clearCookie,

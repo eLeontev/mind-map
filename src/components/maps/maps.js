@@ -12,7 +12,7 @@ export let Maps = ({ maps }) => (
                     className="maps--link"
                     to={{
                         pathname: `/maps/${label}`,
-                        state: { id }
+                        state: { id },
                     }}
                 >
                     <span>{index + 1}. </span>
