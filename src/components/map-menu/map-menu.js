@@ -10,12 +10,7 @@ import { services } from '../../services';
 
 import './map-menu.css';
 
-let {
-    getMaps,
-    createMap,
-    signOff,
-    isUserAuthorized,
-} = services;
+let { getMaps, createMap, signOff, isUserAuthorized } = services;
 
 let SIGN_OFF = 'Sign off';
 let MESSAGE = 'no maps yet';
@@ -29,9 +24,7 @@ class MapMenu extends Component {
     constructor(props) {
         super(props);
         let {
-            location: {
-                state: { displayName } = {},
-            },
+            location: { state: { displayName } = {} },
         } = props;
 
         this.state = {

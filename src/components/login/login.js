@@ -5,13 +5,12 @@ import './login.css';
 
 let label = 'Google AUTH';
 
-
 export class Login extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isLoaded: true
+            isLoaded: true,
         };
     }
 
@@ -31,4 +30,4 @@ export class Login extends Component {
             </div>
         );
     }
-};
+}
