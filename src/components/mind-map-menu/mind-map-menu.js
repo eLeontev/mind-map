@@ -19,12 +19,15 @@ class MindMapMenu extends Component {
 
     saveMap = () => {
         let {
-            props: { blocks, id },
+            props: { blocks, id, hideLoader, showLoader },
         } = this;
+
+        showLoader();
         this.services
             .saveMapByID(id, blocks)
             .then(({ status }) => console.log(status))
-            .catch(console.error);
+            .catch(console.error)
+            .then(hideLoader);
     };
 
     goToMapMenu = () => {

@@ -4,18 +4,25 @@ import { withRouter } from 'react-router';
 import Input from '../input';
 import Maps from '../maps';
 import Button from '../button';
+import Loader from '../loader';
 
 import { services } from '../../services';
 
 import './map-menu.css';
 
-let { getMaps, createMap, signOff } = services;
+let {
+    getMaps,
+    createMap,
+    signOff,
+    isUserAuthorized,
+} = services;
 
 let SIGN_OFF = 'Sign off';
 let MESSAGE = 'no maps yet';
 let initialState = {
     newMapName: '',
     maps: [],
+    isLoaded: false,
 };
 
 class MapMenu extends Component {
@@ -23,7 +30,7 @@ class MapMenu extends Component {
         super(props);
         let {
             location: {
-                state: { displayName },
+                state: { displayName } = {},
             },
         } = props;
 
@@ -38,10 +45,31 @@ class MapMenu extends Component {
     }
 
     componentDidMount() {
+        this.setDisplayName();
         this.getMaps()
             .then((maps) => this.setState({ maps }))
-            .catch(({ message }) => console.error(message));
+            .catch(({ message }) => console.error(message))
+            .then(this.hideLoader);
     }
+
+    // eslint-disable-next-line consistent-return
+    setDisplayName = () => {
+        let { state } = this;
+
+        if (!state.displayName) {
+            // eslint-disable-next-line no-undef
+            let displayName = sessionStorage.getItem('displayName');
+
+            if (displayName) {
+                this.setState({ displayName });
+            } else {
+                return isUserAuthorized()
+                    .then(this.setState)
+                    .catch(console.error)
+                    .then(this.hideLoader);
+            }
+        }
+    };
 
     validateAndGoToNewCreatedMap = (label) => {
         let { history } = this.props;
@@ -66,17 +94,26 @@ class MapMenu extends Component {
     };
 
     signOffHandler = () => {
+        this.setState({
+            isLoaded: false,
+        });
         this.signOff()
             .then(() => {
-                console.log(1);
                 let { history } = this.props;
                 history.push('/login');
             })
-            .catch(console.error);
+            .catch(console.error)
+            .then(this.hideLoader);
+    };
+
+    hideLoader = () => {
+        this.setState({
+            isLoaded: true,
+        });
     };
 
     render() {
-        let { displayName, maps, defaultValue } = this.state;
+        let { displayName, maps, defaultValue, isLoaded } = this.state;
 
         return (
             <div className="menu">
@@ -97,6 +134,7 @@ class MapMenu extends Component {
                 )}
 
                 <Button label={SIGN_OFF} callback={this.signOffHandler} />
+                {!isLoaded && <Loader />}
             </div>
         );
     }

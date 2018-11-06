@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 
 import Block from '../block';
 import MindMapMenu from '../mind-map-menu';
+import Loader from '../loader';
 
 import { CONSTANTS } from '../../constants';
 import { utils } from '../../utils';
@@ -35,6 +36,7 @@ class MindMap extends Component {
             selectedBlockID: 0,
             enableCreateNewBlock: true,
             blocks: [{ ...rootBlock }],
+            isLoaded: false,
         };
 
         this.services = services;
@@ -62,7 +64,8 @@ class MindMap extends Component {
                 blocks = blocks.length ? blocks : state.blocks;
                 this.setState({ blocks });
             })
-            .catch(console.error);
+            .catch(console.error)
+            .then(this.hideLoader);
     };
 
     keyDown = (event) => {
@@ -301,8 +304,21 @@ class MindMap extends Component {
         return blocks;
     };
 
+    hideLoader = () => {
+        this.setState({
+            isLoaded: true,
+        });
+    };
+
+    showLoader = () => {
+        this.setState({
+            isLoaded: false,
+        });
+    };
+
     render() {
-        let { id, blocks } = this.state;
+        let { hideLoader, showLoader } = this;
+        let { id, blocks, isLoaded } = this.state;
         let [rootBlock] = blocks;
         let handlers = {
             updateLabel: this.updateLabel,
@@ -313,7 +329,12 @@ class MindMap extends Component {
 
         return (
             <div className="mind-map-container">
-                <MindMapMenu id={id} blocks={blocks} />
+                <MindMapMenu
+                    id={id}
+                    blocks={blocks}
+                    hideLoader={hideLoader}
+                    showLoader={showLoader}
+                />
                 <div className="mind-map">
                     <Block
                         block={rootBlock}
@@ -321,6 +342,7 @@ class MindMap extends Component {
                         handlers={handlers}
                     />
                 </div>
+                {!isLoaded && <Loader />}
             </div>
         );
     }

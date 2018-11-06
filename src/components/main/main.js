@@ -11,7 +11,11 @@ class Main extends Component {
     componentDidMount() {
         let { history } = this.props;
         isUserAuthorized()
-            .then((displayName) => history.push('/maps', displayName))
+            .then(({ displayName }) => {
+                // eslint-disable-next-line no-undef
+                sessionStorage.setItem('displayName', displayName);
+                history.push('/maps', { displayName });
+            })
             .catch(() => history.push('/login'));
     }
 
