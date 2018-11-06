@@ -40,10 +40,17 @@ class MapMenu extends Component {
     componentDidMount() {
         this.setDisplayName();
         this.getMaps()
+            .then(this.setOrderByLastUpdated)
             .then((maps) => this.setState({ maps }))
             .catch(({ message }) => console.error(message))
             .then(this.hideLoader);
     }
+
+    setOrderByLastUpdated = (maps) =>
+        maps.sort(
+            (a, b) =>
+                new Date(b.lastUpdated) > new Date(a.lastUpdated) ? 1 : -1
+        );
 
     // eslint-disable-next-line consistent-return
     setDisplayName = () => {

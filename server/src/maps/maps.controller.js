@@ -13,7 +13,11 @@ let mapsController = {
     getMapsByOwner: ({ userData: { id = 'testID' } }, res) => {
         Map.find({ ownerID: id })
             .then((maps = []) => (
-                res.send(maps.map(({ id, label }) => ({ id, label }))))
+                res.send(maps.map(({ id, label, updatedAt: lastUpdated }) => ({
+                    id,
+                    label,
+                    lastUpdated,
+                }))))
             );
     },
     createMap: ({ userData: { id: ownerID = 'testID' }, body: { label, blocks } }, res) => {
