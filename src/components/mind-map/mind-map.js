@@ -60,10 +60,12 @@ class MindMap extends Component {
 
         this.services
             .getMapByID(id)
-            .then(({ blocks }) => {
-                blocks = blocks.length ? blocks : state.blocks;
-                this.setState({ blocks });
-            })
+            .then((blocks) => blocks.length ? blocks : state.blocks)
+            .then((blocks) => blocks.map((block) => ({
+                ...block,
+                isEditMode: false,
+            })))
+            .then((blocks) => this.setState({ blocks }))
             .catch(console.error)
             .then(this.hideLoader);
     };

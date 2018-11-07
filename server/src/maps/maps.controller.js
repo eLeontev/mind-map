@@ -55,15 +55,15 @@ let mapsController = {
             )
             .catch((error) => sendStatusWithMessage(error, res));
     },
-    getMapByID: ({ params: id }, res) => {
+    getMapBlocksByID: ({ params: id }, res) => {
         Map.findOne(id)
             .then((map) => {
                 if (!map) {
                     generateError(400, 'not found');
                 }
-                return map;
+                return map.blocks;
             })
-            .then((map) => res.send(map))
+            .then((blocks) => res.send(blocks))
             .catch((error) => sendStatusWithMessage(error, res));
     }
 };
