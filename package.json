@@ -1,5 +1,8 @@
 {
   "name": "mind-map",
+  "engines": {
+    "node": "8.12.x"
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,6 +17,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "install:server": "cd ./server && npm install",
+    "start:prod": "cd ./server && npm run start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

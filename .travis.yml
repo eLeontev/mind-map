@@ -1,7 +1,16 @@
 language: node_js
 node_js:
-  - 8
+- 8
 jobs:
   include:
-    - stage: test
-      script: npm run eslint
+  - stage: test
+    script: npm run eslint
+deploy:
+  provider: heroku
+  api_key:
+    secure: B5S30cqXm/uPj1Nw4/xOmVfoT4tkF6e1vwyY3vE95XTCKBYOr7F6p0SIcflC+7jFb1x4/XCKaGEwpnGAxi0no3k7NTTejN9bZyAT22kCwl87GCJZE67li533APeEo57hko90t627frx2g3nUFJcj7Xs9uXNCXD3K/IuUewsX3Uo5KPjxXwyCpTLTx2YrCSICmammyMZKf3s5LseoOfQ2HLDVZjSY2YlgJp4Ldwx+S3zQLBrYqYJYxn4WAagQKKo7ud+WOk+/JEj+8/lXW4/qPjugx+rGh9VLQga/3hQN4JMKob4OYpuAgEbc6yBHriCEH4pKc73k/AaWx1kG5z+mQoBY00hil7TvZIM+ZXZBxn+65/jMoKnW9GaIbUXi5cEH0AsG5yo34LLdbLN9NliApbChR5ooxwGWsFLKggi0W5Gi69Psic849n/wyck3kQw2u2i7VEs1j4DLX7C9sVpYK+gXIumdty0M+EuDDGCALyAnpPdwZ3xLOtGemJF0NFm/9WGMyNCqxOUdq/3Afjj3/b5IzIae7hbd7akeRvoNeEA5vfu9dMeqvvMphHTsVea6XfVNcZ/aNgpgEMYtThOearH/4V6yhL1WLdEX44rR2PP9RSqAaXQLWKbY62LGuGhcTAzepcD9Tfs0R8Q66azc+RUnAKlufQADRULZ3/r8+c8=
+  app: mind-map
+  run:
+  - npm install:server
+  - npm build
+  - npm start:prod
