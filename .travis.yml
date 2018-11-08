@@ -1,14 +1,16 @@
 language: node_js
 node_js:
 - 10
+cache: false
 jobs:
   include:
   - stage: test
     script: npm run eslint
+before_deploy:
+  - npm run install:server
+  - npm run build
 deploy:
   provider: heroku
   api_key:
     secure: c4hVOnLi01K6s6InO5jZwStDMu+8FbtCs/Ux35bWnp9Ca+66m7aK2s3RKfAFe13fFEEfQWcANoqIcwi+c1c7pbnUsyINL0XrX1UAXFSDz88QckpqHurxPgIBzWYhA4HWyeQIMN6MAhxsW5NoB27HhQibS7LC6+zYMpRmUidEtFdTHUDPwohqTv2t5HGHp3xsnNvCA9/pe7ch4Hzd0SODbZ/QQdqj0Om7vqFPKGCoydthqZ2EOcIXB6vNFcG6lHPLqVgc5JmOq7t3OzVVOEyuAtKHons4nN6VD1IPlKL/LPCta7l8CP8RJuiKEIzBRee/VpruPi+qH3UY6pnxA07rh53I3Pc77RiaTR1r7WdqhJ4n2Kds47MXWah+bcilRbrzhLTeIRqP09kmksGbHqQHHEHrL8orddLDL4euCx9wMOdxZfhnNNTyqJ8wjJt8UHi4/no5RmonE/koq2VShzGVrF8COpDEk5Y4PhujLW1smDOAXqb+oIEZdYyoGt4CsADHr3DC1BdAS7FGzcM3WcVkb5W7/P12PAQThTSskeiW3O8aPCcqH61+R9PjJYWHi07BQU1LAz44ldFB/Tph/sX0f6BsN/na9UmZEZEuq5Ud76te18CZ0ZjAZB+zFlpoClf/ZblYCJmnj8ad0e3vMewnN70GkAVtwc3YgIMEv37CFhg=
   app: mind-map-app
-  run:
-  - npm run start
