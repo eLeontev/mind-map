@@ -2,23 +2,21 @@ require('dotenv').config();
 
 let path = require('path');
 let express = require('express');
-let morgan = require('morgan');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
-let { DB_URL } = require('../keys');
-let cache = require('./cache');
 
 const app = express();
 const server = require('http').Server(app);
+
+let { DB_URL } = require('../keys');
 
 let PORT = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, '../../build')));
 
-app.get('/', function(req, res) {
-  console.log(path.join(__dirname, '../../build', 'index.html'))
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'));
 });
 
