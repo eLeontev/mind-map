@@ -17,7 +17,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.2"
   },
   "scripts": {
-    "start": "npm run start:prod",
+    "start": "node ./server/src/index.js",
     "start:dev": "react-scripts start",
     "install:server": "cd ./server && npm install",
     "start:prod": "cd ./server && npm run start",
