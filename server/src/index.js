@@ -3,7 +3,7 @@ require('dotenv').config();
 let path = require('path');
 let express = require('express');
 let bodyParser = require('body-parser');
-let cors = require('cors');
+// let cors = require('cors');
 let cookieParser = require('cookie-parser');
 let mongoose = require('mongoose');
 
@@ -35,7 +35,7 @@ mongoose.connect(DB_URL, { useMongoClient: true })
     .catch(console.error);
 
 // Allow cross origin
-app.use(cors());
+// app.use(cors());
 
 // Logger
 // app.use(morgan('dev'));
