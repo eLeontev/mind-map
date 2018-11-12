@@ -9,9 +9,10 @@ let mongoose = require('mongoose');
 const app = express();
 const server = require('http').Server(app);
 
-let { DB_URL } = require('../keys');
+let { env } = process;
+let { DB_URL = env.DB_URL } = require('../keys');
 
-let PORT = process.env.PORT;
+let PORT = env.PORT;
 
 app.use(express.static(path.join(__dirname, '../../build')));
 
