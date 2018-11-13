@@ -10,6 +10,7 @@ const app = express();
 const server = require('http').Server(app);
 
 let { env } = process;
+console.log(env.DB_URL);
 let { DB_URL = env.DB_URL } = require('../keys');
 
 let PORT = env.PORT;
