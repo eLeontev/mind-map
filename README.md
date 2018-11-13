@@ -28,7 +28,7 @@ Now press Tab to create a new child block. *Each new block will be displayed in 
 Creating a new sister block by pressing enter works on each block except the root block (only one root can exist)
 Mouse click turns off edit mode if click was performed on an empty space and will open edit mode in the block that was clicked. 
 
-* To turn off edit mode click mouse on emtpy space outside of any blocks.
+* To turn off edit mode click mouse on empty space outside of any blocks.
 
 Sample workflow:
 `typing` -> `Enter` -> `Tab` -> `typing` -> `Enter` -> `Enter` -> `typing` ...
