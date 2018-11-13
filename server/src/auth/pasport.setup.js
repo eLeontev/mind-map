@@ -1,6 +1,11 @@
 let passport = require('passport');
 let { Strategy: GoogleStrategy } = require('passport-google-oauth20');
-let { googleKeys } = require('../../keys');
+let {
+    googleKeys: {
+        clientID,
+        clientSecret,
+    }
+} = require('../../keys');
 
 let {
     env: {
@@ -9,13 +14,10 @@ let {
     }
 } = process;
 
-let {
-    clientID,
-    clientSecret,
-} = googleKeys;
-
-googleKeys.clientID = clientID || GOOGLE_CLIENT_ID;
-googleKeys.clientSecret = clientSecret || GOOGLE_CLIENT_SECRET;
+let googleKeys = {
+    clientID: clientID || GOOGLE_CLIENT_ID,
+    clientSecret: clientSecret || GOOGLE_CLIENT_SECRET,
+};
 
 passport.use(new GoogleStrategy({
     ...googleKeys,

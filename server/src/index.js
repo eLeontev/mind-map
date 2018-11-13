@@ -9,11 +9,10 @@ let mongoose = require('mongoose');
 const app = express();
 const server = require('http').Server(app);
 
-let { env } = process;
-console.log(env.DB_URL);
-let { DB_URL = env.DB_URL } = require('../keys');
+let { DB_URL } = require('../keys');
 
-let PORT = env.PORT;
+let { env } = process;
+let { PORT } = env;
 
 app.use(express.static(path.join(__dirname, '../../build')));
 
@@ -30,7 +29,7 @@ let startListenServer = () => (
 
 // MongoDB connection configuration
 mongoose.Promise = global.Promise;
-mongoose.connect(DB_URL, { useMongoClient: true })
+mongoose.connect(DB_URL || env.DB_URL, { useMongoClient: true })
     .then(({ name }) => console.log(`successfully connected to DB: ${name}`))
     .then(startListenServer)
     .catch(console.error);
