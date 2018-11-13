@@ -35,6 +35,8 @@ Sample workflow:
 
 ## Development
 
+To connect to server please read [server/readme.md](https://github.com/eLeontev/mind-map/blob/master/server/README.md)
+
   - [Available Scripts](#available-scripts)
   - [npm start](#npm-start)
   - [npm test](#npm-test)
