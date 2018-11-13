@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "node ./server/src/index.js",
-    "heroku-prebuild": "pm run install:server && npm run build",
+    "heroku-prebuild": "npm run install:server && npm run build",
     "install:server": "cd ./server && npm install",
     "start:dev": "react-scripts start",
     "build": "react-scripts build",

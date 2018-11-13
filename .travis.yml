@@ -6,9 +6,6 @@ jobs:
   include:
   - stage: test
     script: npm run eslint
-before_deploy:
-  - npm run install:server
-  - npm run build
 deploy:
   provider: heroku
   api_key:
