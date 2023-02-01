@@ -34,7 +34,7 @@
     "https": "^1.0.0",
     "ipware": "^1.0.0",
     "jsonwebtoken": "^8.0.1",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.13.15",
     "morgan": "^1.8.2",
     "node-cache": "^4.2.0",
     "path": "^0.12.7",
